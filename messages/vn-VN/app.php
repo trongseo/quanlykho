@@ -53,9 +53,9 @@ return [
 
     //Stockin
     'Stockin ID' => 'ID kho',
-    'Create Stockin' => 'Tạo kho',
+    'Create Stockin' => 'nhập kho',
     'Stockin' => 'Kho',
-    'Count' => 'Đếm',
+    'Count' => 'Số lượng',
     'Details' => 'Chi tiết',
 
     //Delivery
