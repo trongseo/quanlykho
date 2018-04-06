@@ -15,7 +15,7 @@ return [
 
     // Products
     'Products' => 'Các sản phẩm',
-    'Product' => 'Sản phảm',
+    'Product' => 'Sản phẩm',
     'Products ID' => 'ID Các sản phẩm',
     'Product ID' => 'ID sản phẩm',
     'Name' => 'Tên',
