@@ -53,7 +53,7 @@ return [
 
     //Stockin
     'Stockin ID' => 'ID kho',
-    'Create Stockin' => 'nhập kho',
+    'Create Stockin' => 'Nhập kho',
     'Stockin' => 'Kho',
     'Count' => 'Số lượng',
     'Details' => 'Chi tiết',
