@@ -65,7 +65,7 @@ $config = [
             'class' => '\kartik\grid\Module',
         ],
     ],
-    'language' => 'zh-CN',
+    'language' => 'vn-VN',
 ];
 
 if (YII_ENV_DEV) {

@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
 <?php
 NavBar::begin([
-    'brandLabel' => '龙记公司出入库管理系统',
+    'brandLabel' => 'Hệ Thống Lưu Trữ', //龙记公司出入库管理系统
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
