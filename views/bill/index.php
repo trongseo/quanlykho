@@ -8,10 +8,13 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bill'), 'url' => ['i
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="bill-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form') ?>
-
-</div>
+<form action="/index.php?r=bill%2Findex" method="post">
+    First name:<br><input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+    <input type="text" name="productname" value="">
+    <br>
+    Last name:<br>
+    <input type="text" name="lastname" value="Mouse">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
