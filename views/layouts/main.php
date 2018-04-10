@@ -39,6 +39,7 @@ echo Nav::widget([
         ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
         ['label' => Yii::t('app','Delivery'), 'url' => ['/delivery/index']],
         ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
+        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
         ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
         ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
         ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],

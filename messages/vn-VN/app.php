@@ -72,4 +72,7 @@ return [
     //Collection
     'Create Collection' => 'Tạo bộ sưu tập',
 
+    //Bill
+    'Bill'=>'Nhập phiếu',   
+
 ];
