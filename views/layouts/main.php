@@ -43,6 +43,7 @@ echo Nav::widget([
         ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
         ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
         ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
+        ['label' => Yii::t('app', 'Account'), 'url' => ['/usermanager/index']],
         ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
         Yii::$app->user->isGuest ?
         ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :

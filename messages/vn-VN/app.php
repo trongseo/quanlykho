@@ -33,6 +33,7 @@ return [
     'Update {modelClass}: ' => 'Cập nhật {modelClass}: ',
     // Accounts
     'Account' => 'Tài khoản',
+    'UserManager' => 'Quản lý tài khoản',
     'Accounts' => 'Các tài khoản',
     'Account ID' => 'ID tài khoản',
     'Card Number' => 'Số thẻ',
