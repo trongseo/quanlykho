@@ -35,7 +35,7 @@ class Bill extends \yii\db\ActiveRecord
         return [
             [['idwarehose'], 'required'],
             [['unit','idchungtu','idproduct','productname','idnhacungcap','note'], 'string'],
-            [['count'], 'integer'],
+            [['count','idunit'], 'integer'],
             [['price', 'cost'], 'number'],
             [['date'],'date']
         ];
@@ -58,6 +58,7 @@ class Bill extends \yii\db\ActiveRecord
             'cost' => Yii::t('app', 'Cost'),
             'note'=>Yii::t('app','Note'),
             'date'=>Yii::t('app','Date'),
+            'idunit'=>Yii::t('app','IDunit'),
         ];
     }
 

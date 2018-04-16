@@ -42,8 +42,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="form-group field-bill-unit">
                         <label class="control-label" for="bill-unit">Đơn vị</label>
                         <select id="bill-unit" class="form-control" name="unit">
-                            <option value="Cái">Cái</option>
-                            <option value="Hộp">Hộp</option>
+                            <?php
+
+                            foreach ($comboboxdata as $combobox) {
+                            ?>
+
+                            <option value="<?php echo ($combobox['id']); ?>"><?php echo ($combobox['unit_name']); ?></option>
+
+                                <?php
+                            }
+
+                            ?>
                         </select>
 
                         <div class="help-block"></div>

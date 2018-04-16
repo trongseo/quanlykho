@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'Create Bill');
+$this->title = Yii::t('app', 'View All Bill');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bill'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="kv-panel-before">
                 <div class="btn-toolbar kv-grid-toolbar toolbar-container pull-right">
-                    <div class="btn-group"><a class="btn btn-success" href="/index.php?r=bill%2Fcreate">Tạo phiếu
+                    <div style="margin-top: 5%" class="btn-group"><a class="btn btn-success" href="/index.php?r=bill%2Fcreate">Tạo phiếu
                             nhập</a>
                     </div>
                 </div>
@@ -31,25 +31,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="clearfix"></div>
             </div>
             <div id="w0-container" class="table-responsive kv-grid-container">
-                <table class="kv-grid-table table table-striped kv-table-wrap" style="text-align:center">
+                <table class="kv-grid-table table table-striped kv-table-wrap " >
                     <thead>
                     <tr>
-                        <th data-col-seq="0"><a href="/index.php?r=bill%2Findex&amp;sort=idwarehouse" data-sort="idwarehouse">ID Phiếu</a></th>
-                        <th data-col-seq="1"><a href="/index.php?r=bill%2Findex&amp;sort=idchungtu" data-sort="idchungtu">ID Chứng Từ</a></th>
-                        <th data-col-seq="2"><a href="/index.php?r=bill%2Findex&amp;sort=productname" data-sort="productname">Tên Sản Phẩm</a></th>
-                        <th data-col-seq="3"><a href="/index.php?r=bill%2Findex&amp;sort=unit" data-sort="unit">Đơn vị</a></th>
-                        <th data-col-seq="4"><a href="/index.php?r=bill%2Findex&amp;sort=price" data-sort="price">Giá bán</a></th>
-                        <th data-col-seq="5"><a href="/index.php?r=bill%2Findex&amp;sort=cost" data-sort="cost">Giá</a></th>
-                        <th data-col-seq="6"><a href="/index.php?r=bill%2Findex&amp;sort=date" data-sort="date">Ngày nhập</a></th>
+                        <th data-col-seq="0"><a href="/index.php?r=bill%2Findex&amp;sort=idwarehouse"
+                                                data-sort="idwarehouse">ID Phiếu</a></th>
+                        <th data-col-seq="1"><a href="/index.php?r=bill%2Findex&amp;sort=idchungtu"
+                                                data-sort="idchungtu">ID Chứng Từ</a></th>
+                        <th data-col-seq="2"><a href="/index.php?r=bill%2Findex&amp;sort=productname"
+                                                data-sort="productname">Tên Sản Phẩm</a></th>
+                        <th data-col-seq="3"><a href="/index.php?r=bill%2Findex&amp;sort=unit" data-sort="unit">Đơn
+                                vị</a></th>
+                        <th data-col-seq="4"><a href="/index.php?r=bill%2Findex&amp;sort=price" data-sort="price">Giá
+                                bán</a></th>
+                        <th data-col-seq="5"><a href="/index.php?r=bill%2Findex&amp;sort=cost" data-sort="cost">Giá</a>
+                        </th>
+                        <th data-col-seq="6"><a href="/index.php?r=bill%2Findex&amp;sort=date" data-sort="date">Ngày
+                                nhập</a></th>
                     </tr>
 
-<!--                    <tr id="w0-filters" class="filters skip-export">-->
-<!--                        <td><input type="text" class="form-control" name="billSearch[name]"></td>-->
-<!--                        <td><input type="text" class="form-control" name="billSearch[unit]"></td>-->
-<!--                        <td><input type="text" class="form-control" name="billSearch[specification]"></td>-->
-<!--                        <td><input type="text" class="form-control" name="billSearch[price]"></td>-->
-<!--                        <td><input type="text" class="form-control" name="billSearch[cost]"></td>-->
-<!--                    </tr>-->
+                                        <tr id="w0-filters" class="filters skip-export">
+                                            <td><input type="text" class="form-control" name="searchidưarehouse"></td>
+                                            <td><input type="text" class="form-control" name="searchidchungtu"></td>
+                                            <td><input type="text" class="form-control" name="searchproductname"></td>
+                                            <td><input type="text" class="form-control" name="searchunit_name"></td>
+                                            <td><input type="text" class="form-control" name="searchprice"></td>
+                                            <td><input type="text" class="form-control" name="searchcost"></td>
+                                            <td><input type="date" class="form-control" name="searchdate"></td>
+                                        </tr>
 
                     </thead>
                     <tbody>
@@ -59,17 +68,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     foreach ($datas as $myitem) {
                         ?>
 
-
                         <tr data-key="1">
-                            <td class="kv-align-center kv-align-middle" style="width:50px;" data-col-seq="0"><a href="index.php?r=bill%2Fview&amp;id=<?php echo ($myitem['idwarehouse']); ?>"><?php echo ($myitem['idwarehouse']); ?></a></td>
-                            <td class="kv-align-center kv-align-middle" data-col-seq="1"><?php echo ($myitem['idchungtu']); ?></td>
-                            <td class="kv-align-center kv-align-middle" style="width:20%;" data-col-seq="2"><?php echo ($myitem['productname']); ?></td>
-                            <td class="kv-align-center kv-align-middle" data-col-seq="3"><?php echo ($myitem['unit']); ?></td>
-                            <td class="kv-align-center kv-align-middle" data-col-seq="4"><?php echo ($myitem['price']); ?></td>
-                            <td class="kv-align-center kv-align-middle" data-col-seq="5"><?php echo ($myitem['cost']); ?></td>
-                            <td class="kv-align-center kv-align-middle" data-col-seq="6"><?php echo ($myitem['date']); ?></td>
+                            <td style="text-align: left" data-col-seq="0"><a
+                                    href="index.php?r=bill/update&id=<?php echo($myitem['idwarehouse']); ?>"><?php echo($myitem['idwarehouse']); ?></a>
+                            </td>
+                            <td style="text-align: left" data-col-seq="1"><?php echo($myitem['idchungtu']); ?></td>
+                            <td style="text-align: left" data-col-seq="2"><?php echo($myitem['productname']); ?></td>
+                            <td style="text-align: left" data-col-seq="3"><?php echo($myitem['unit_name']); ?></td>
+                            <td style="text-align: left" data-col-seq="4"><?php echo($myitem['price']); ?></td>
+                            <td style="text-align: left" data-col-seq="5"><?php echo($myitem['cost']); ?></td>
+                            <td style="text-align: left" data-col-seq="6">
+                                <?php
+                                $date = date_create($myitem['date']);
+                                echo date_format($date, "m/d/Y") ?>
+                            </td>
+                            <td >
+                                <a style="border:rgba(251, 56, 33, 0.96) solid;padding: 5%;background-color: red; color: white" href="/index.php?r=bill%2Fdelete&amp;id=<?php echo($myitem['idwarehouse']); ?>" data-confirm="Chắc chắn xóa phiếu này chứ ?" data-method="post">Xóa</a></td>
                         </tr>
-
                         <?php
                     }
 
@@ -90,44 +105,3 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-
-<!---->
-<!--<form  action="/index.php?r=bill%2Findex" method="post">-->
-    <input type="hidden" name="_csrf" value="<? //=Yii::$app->request->getCsrfToken()?>" />
-<!--    <input type="text" hidden name="idwarehouse" value="">-->
-<!--    date:-->
-<!--    <input type="time" name="date" value="">-->
-<!--    <br>-->
-<!--    id chứng từ:-->
-<!--    <input type="text" name="idchungtu" value="">-->
-<!--    <br><br>-->
-<!--    id products:-->
-<!--    <input type="text" name="idproduct" value="">-->
-<!--    <br><br>-->
-<!--    product name:-->
-<!--    <input type="text" name="productname" value="">-->
-<!--    <br><br>-->
-<!--    unit:-->
-<!--    <select name="unit">-->
-<!--        <option value="cái" >cái</option>-->
-<!--    </select>-->
-<!--    <br><br>-->
-<!--    count:-->
-<!--    <input type="text" name="count" value="">-->
-<!--    <br><br>-->
-<!--    price:-->
-<!--    <input type="text" name="price" value="">-->
-<!--    <br><br>-->
-<!--    cost:-->
-<!--    <input type="text" name="cost" value="">-->
-<!--    <br><br>-->
-<!--    id nhà cung cấp:-->
-<!--    <input type="text" name="idnhacungcap" value="">-->
-<!--    <br><br>-->
-<!--    note:-->
-<!--    <input type="text" name="note" value="">-->
-<!--    <br>-->
-<!---->
-<!--    <br>-->
-<!--    <input type="submit" value="Submit">-->
-<!--</form>-->
