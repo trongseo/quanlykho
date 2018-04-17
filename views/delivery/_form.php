@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
@@ -72,7 +73,7 @@ $("body").on("change",".detail-count",function() {
     var product_id = product_item.val();
     if(!isNaN(count) && product_id != ""){
         price = price_item.val();
-        total_item.html((price * count).toFixed(2));
+        total_item.html((price * count).toFixed(0));
         updateMoney();
     }
 });
@@ -80,12 +81,13 @@ $("body").on("change",".detail-count",function() {
 $("body").on("change", ".detail-price", function() {
     var count_item = $(this).parent().parent().prev().children().children(".detail-count");
     var total_item = $(this).parent().parent().next().children("em");
-    total_item.html(($(this).val() * count_item.val()).toFixed(2));
+    total_item.html(($(this).val() * count_item.val()).toFixed(0));
     updateMoney();
 });
 JS;
 
 $this->registerJs($js, $this::POS_END);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
 ?>
 
 <div class="delivery-form">
@@ -177,9 +179,9 @@ $this->registerJs($js, $this::POS_END);
                                         <em class="pull-right detail-total">
                                         <?php
                                         if ($modelDetail->price){
-                                            echo number_format($modelDetail->price * $modelDetail->count, 2, '.','');
+                                            echo number_format($modelDetail->price * $modelDetail->count, 0, '.','');
                                         }else{
-                                            echo '0.00';
+                                            echo '0';
                                         }
                                         ?>
                                         </em>

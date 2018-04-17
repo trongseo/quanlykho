@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Collection */
 /* @var $form yii\widgets\ActiveForm */
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js?ver=3',['depends' => [JqueryAsset::className()]]);
 ?>
 
 <div class="collection-form">
@@ -46,7 +46,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => 
     <?= $form->field($model, 'flg_thuchi')->radioList([1 => 'Thu tiền', 0 => 'Chi tiền'])->label('Thu chi'); ?>
 
 
-    <?= $form->field($model, 'money')->textInput(['class'=>'nụmber_format','type'=>'number','maxlength' => true])->label('Số tiền') ?>
+    <?= $form->field($model, 'money')->textInput(['class'=>'number_format form-control','type'=>'number','maxlength' => true])->label('Số tiền') ?>
 
 
     <?= $form->field($model, 'customer_id')->dropDownList(

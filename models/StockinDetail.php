@@ -11,6 +11,7 @@ use Yii;
  * @property integer $stockin_id
  * @property integer $product_id
  * @property integer $count
+ * @property integer $price
  *
  * @property Stockin $stockin
  * @property Product $product
@@ -33,7 +34,7 @@ class StockinDetail extends \yii\db\ActiveRecord
         return [
             // delete the stockin_id for valid the StockinController
             [['product_id', 'count'], 'required'],
-            [['stockin_id', 'product_id', 'count'], 'integer']
+            [['stockin_id', 'product_id', 'count','price'], 'integer']
         ];
     }
 
@@ -47,6 +48,7 @@ class StockinDetail extends \yii\db\ActiveRecord
             'stockin_id' => Yii::t('app', 'Stockin ID'),
             'product_id' => Yii::t('app', 'Product'),
             'count' => Yii::t('app', 'Count'),
+            'price' => Yii::t('app', 'Giá'),
         ];
     }
 

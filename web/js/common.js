@@ -14,20 +14,20 @@ function addCommas(nStr)
 
 //form collection
 function formatNumberAll(){
-    $(".nụmber_format").each(function( index ) {
+    $(".number_format").each(function( index ) {
         var afterCommars = addCommas( $(this).val());
-        $( "<p class='pformat'  style='float: right'  id='pformat_"+ $(this).attr('id') +"' ><b>"+afterCommars+"</b></p>" ).insertAfter( ".nụmber_format" );
+        $( "<p class='pformat'  style='float: right'  id='pformat_"+ $(this).attr('id') +"' ><b>"+afterCommars+"</b></p>" ).insertAfter( ".number_format" );
     });
 }
 function formatNumber(objs){
         var afterCommars = addCommas( $(objs).val());
     $("#pformat_"+ $(objs).attr('id')).remove();
-        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter( ".nụmber_format" );
+        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter( ".number_format" );
 
 }
 $( document ).ready(function() {
 
-    $(".nụmber_format").keyup(function(){
+    $(".number_format").keyup(function(){
         formatNumber($(this));
     });
     formatNumberAll();

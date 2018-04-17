@@ -9,9 +9,9 @@ return [
     'Password' => 'Mật khẩu',
     'Remember Me' => 'Nhớ tôi',
     'About' => 'Giới thiệu',
-    'Delivery' => 'Giao nhận',
+    'Delivery' => 'Xuất kho',
     'Collection' => 'Thu chi',
-    'Stockins' => 'Lưu trữ',
+    'Stockins' => 'QL Nhập kho',
 
     // Products
     'Products' => 'Các sản phẩm',
@@ -55,15 +55,15 @@ return [
     //Stockin
     'Stockin ID' => 'ID kho',
     'Create Stockin' => 'Nhập kho',
-    'Stockin' => 'Kho',
+    'Stockin' => 'Nhập kho',
     'Count' => 'Số lượng',
     'Details' => 'Chi tiết',
 
     //Delivery
-    'Deliveries' => 'Giao hàng',
-    'Delivery ID' => 'ID Giao hàng',
+    'Deliveries' => 'Xuất kho',
+    'Delivery ID' => 'ID Xuất kho',
     'Money' => 'Tiền',
-    'Create Delivery' => 'Tạo giao hàng',
+    'Create Delivery' => 'Tạo xuất kho',
     'Select Product' => 'Chọn sản phẩm',
     'Select Customer' => 'Chọn khách hàng',
     'Total' => 'Tổng',

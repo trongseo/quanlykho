@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
@@ -14,11 +15,12 @@ use app\models\Product;
 $js = <<<JS
 function updateMoney(){
     var money = new Number(0);
+  //  debugger;
     $(".detail-total").each(function(){
     var detail = new Number($(this).html());
     money += detail;
     });
-    $("#stockin-money").val(money.toFixed(2));
+    $("#stockin-money").val(money.toFixed(0));
 }
 
 var prices;
@@ -26,6 +28,7 @@ $(document).ready(function(){
     $.post("index.php?r=product/prices",function (data) {
         prices = JSON.parse(data);
     });
+    updateMoney();
 });
 
 function getPrice(id) {
@@ -35,7 +38,7 @@ function getPrice(id) {
             if(v.unit == "B") {
                 toReturn = v.price;
             } else {
-                toReturn = (v.price * v.specification).toFixed(2);
+                toReturn = (v.price * v.specification).toFixed(0);
             }
             return false;
         }
@@ -53,11 +56,11 @@ $("body").on("change",".detail-product-id", function handleProduct(){
         price = getPrice(product_id);
         price_item.html(price);
         if(count !="") {
-             total_item.html((price * count).toFixed(2));
+             total_item.html((price * count).toFixed(0));
         }
     }else{
-        price_item.html("0.00");
-        total_item.html("0.00");
+        price_item.html("0");
+        total_item.html("0");
     }
     updateMoney();
 });
@@ -69,15 +72,28 @@ $("body").on("change",".detail-count",function() {
     var product_id = product_item.val();
     console.log(product_id);
     if(!isNaN(count) && product_id != ""){
-        var price = getPrice(product_id);
-        total_item.html((price * count).toFixed(2));
+       //  var price_item= $(this).parent().parent().next().next().children().children(".detail-price");
+         price= $(this).parent().parent().next().next().children().find('.number_format').val();
+       // var price = getPrice(product_id);
+      // debugger;
+       //  var price = price_item.val();
+        total_item.html((price * count).toFixed(0));
         updateMoney();
     }
 });
+
+$("body").on("change", ".detail-price", function() {
+    
+    var count_item =$(this).parent().parent().prev().prev().children().find(".detail-count") ;    //$(this).parent().parent().prev().children().children(".detail-count");
+    var total_item = $(this).parent().parent().next().children("em");
+    total_item.html(($(this).val() * count_item.val()).toFixed(0));
+    updateMoney();
+});
+
 JS;
 
 $this->registerJs($js, $this::POS_END);
-
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
 ?>
 
 <div class="stockin-form">
@@ -105,7 +121,7 @@ $this->registerJs($js, $this::POS_END);
                 </div>
                 </div>
                 <div class="col-sm-6">
-                    <?= $form->field($model, 'money')->textInput() ?>
+                    <?= $form->field($model, 'money')->textInput(['type'=>'number','class'=>'number_format form-control']) ?>
                 </div>
             </div>
             <div class="panel-body">
@@ -114,14 +130,15 @@ $this->registerJs($js, $this::POS_END);
                     'widgetBody' => '.container-items',
                     'widgetItem' => '.item',
                     'limit' => 10,
-                    'min' => 2,
+                    'min' => 1,
                     'insertButton' => '.add-item',
                     'deleteButton' => '.remove-item',
                     'model' => $modelDetails[0],
                     'formId' => 'dynamic-form',
                     'formFields' => [
                         'product_id',
-                        'count'
+                        'count',
+                        'price'
                     ],
                 ]); ?>
                 <div class="container-items">
@@ -156,40 +173,39 @@ $this->registerJs($js, $this::POS_END);
                                     </div>
                                     <div class="col-sm-6">
                                         <?= $form->field($modelDetail, "[{$i}]count")->textInput([
-                                            'maxlength' => true,
+                                            'maxlength' => true,'myid'=>'đi', 'type' =>'number',
                                             'class' => 'form-control detail-count',
                                         ]) ?>
                                     </div>
                                     <div class="clearfix"></div>
                                     <div class="col-sm-6">
+                                        <?= $form->field($modelDetail, "[{$i}]price")->textInput([
+                                            'maxlength' => true, 'type' =>'number',
+                                            'class' => 'number_format  form-control detail-price',
+                                        ]) ?>
                                         <strong><?= Yii::t('app', 'Price').' : ' ?></strong>
-                                        <em class="pull-right">
+                                        <em class="pull-right" style="display: none">
                                         <?php
                                         if($modelDetail->product) {
                                             echo number_format(
                                                 $modelDetail->product->unit =='B' ? $modelDetail->product->price:
                                                     $modelDetail->product->price * $modelDetail->product->specification,
-                                                 2, '.', '');
+                                                 0, '.', '');
                                         }else {
-                                            echo '0.00';
+                                            echo '0';
                                         }
                                         ?>
                                         </em>
                                     </div>
                                     <div class="col-sm-6 pull-right">
                                         <strong><?= Yii::t("app", 'Total').' : ' ?></strong>
-                                        <em class="pull-right detail-total">
-                                        <?php
-                                        if($modelDetail->product) {
-                                            echo number_format(
-                                                $modelDetail->product->unit =='B' ?
-                                                $modelDetail->product->price * $modelDetail->count:
-                                                $modelDetail->product->price * $modelDetail->count * $modelDetail->product->specification
-                                                , 2, '.','');
-                                        }else {
-                                            echo '0.00';
-                                        }
-                                        ?>
+                                        <em class="pull-right detail-total"><?php
+                                            if ($modelDetail->price){
+                                                echo number_format($modelDetail->price * $modelDetail->count, 0, '.','');
+                                            }else{
+                                                echo '0';
+                                            }
+                                            ?>
                                         </em>
                                     </div>
                                     <div class="clearfix"></div>
