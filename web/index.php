@@ -1,8 +1,8 @@
 <?php
 define('APP_DB', 'zzzstock');//tr_daunhotchat
-define('APP_PASSWORD', '123456789');
+define('APP_PASSWORD', '');
 define('APP_USERNAME', 'root');
-define('APP_HOST', '192.168.2.100');
+define('APP_HOST', 'localhost');
 
 // comment out the following two lines when deployed to production
 defined('YII_DEBUG') or define('YII_DEBUG', true);

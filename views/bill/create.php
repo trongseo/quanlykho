@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="form-group field-bill-idchungtu required">
                         <label class="control-label">ID Chứng từ</label>
                         <input type="text" class="form-control" name="idchungtu" >
-
+<?php echo $hienthi; ?>
                         <div class="help-block"></div>
                     </div>
 
