@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use app\models\Account;
@@ -10,6 +11,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Collection */
 /* @var $form yii\widgets\ActiveForm */
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
 ?>
 
 <div class="collection-form">
@@ -36,8 +38,16 @@ use yii\helpers\ArrayHelper;
             ]
         ]);?>
     </div>
+    <?php
+//    var_dump($model);exit();
+    ?>
 
-    <?= $form->field($model, 'money')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'flg_thuchi')->radioList([1 => 'Thu tiền', 0 => 'Chi tiền'])->label('Thu chi'); ?>
+
+
+    <?= $form->field($model, 'money')->textInput(['class'=>'nụmber_format','type'=>'number','maxlength' => true])->label('Số tiền') ?>
+
 
     <?= $form->field($model, 'customer_id')->dropDownList(
         ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
@@ -45,7 +55,7 @@ use yii\helpers\ArrayHelper;
             'prompt' => Yii::t('app','Select Customer'),
         ]
     ) ?>
-
+    <?= $form->field($model, 'note')->textarea(['maxlength' => true])->label('Ghi chú') ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
@@ -53,3 +63,7 @@ use yii\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script>
+
+</script>

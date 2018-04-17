@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\CollectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Collection');
+$this->title = Yii::t('app', 'Thu chi');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="collection-index">
@@ -65,8 +65,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 //                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'money',
-                'format' => ['decimal', 2],
+                'format' => ['decimal',0],
                 'pageSummary' => true,
+            ],
+            [
+//                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'note',
+
             ],
             ['class' => 'kartik\grid\ActionColumn',
                 'updateOptions' => ['hidden'=> true],

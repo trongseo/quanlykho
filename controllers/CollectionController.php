@@ -6,6 +6,7 @@ use Yii;
 use app\models\Collection;
 use app\models\CollectionSearch;
 use yii\web\Controller;
+use yii\web\JqueryAsset;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -17,6 +18,9 @@ class CollectionController extends Controller
 {
     public function behaviors()
     {
+
+
+
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -71,6 +75,7 @@ class CollectionController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new Collection();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -101,6 +106,8 @@ class CollectionController extends Controller
      */
     public function actionUpdate($id)
     {
+
+
         $model = $this->findModel($id);
         $oldMoney = $model->money;
 
@@ -110,6 +117,10 @@ class CollectionController extends Controller
                 date_default_timezone_set("Asia/ShangHai");
                 $model->time .= ("  ". date("H:i:s"));
             }
+//            if($model->flg_thuchi==0){
+//                $model->money = - $model->money;
+//            }
+
             $model->save();
             // update the money to customer
             $customer = $model->customer;

@@ -11,13 +11,15 @@ use Yii;
  * @property integer $account_id
  * @property string $time
  * @property string $money
+ * @property string $note
  * @property integer $customer_id
- *
+ * @property integer $flg_thu_chi
  * @property Customer $customer
  * @property Account $account
  */
 class Collection extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -31,11 +33,18 @@ class Collection extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $blankmass = Yii::t('app', 'require');
+        $require_number = Yii::t('app', 'require_number');
+//        'require' => 'Vui lòng nhập',
+//    '' => 'Vui lòng nhập kiểu số',
+//    'require_date' => 'Vui lòng nhập đúng định dạng ngày yyyy-MM-dd';
         return [
-            [['account_id', 'money', 'customer_id'], 'required'],
+            [['account_id', 'money', 'note','customer_id','flg_thuchi'], 'required','message' =>$blankmass],
             [['account_id', 'customer_id'], 'integer'],
             [['time'], 'safe'],
-            [['money'], 'number']
+            [['money','flg_thuchi'], 'number','message' =>$require_number],
+            [['note'], 'string', 'max' => 128]
+
         ];
     }
 
@@ -49,6 +58,8 @@ class Collection extends \yii\db\ActiveRecord
             'account_id' => Yii::t('app', 'Account'),
             'time' => Yii::t('app', 'Time'),
             'money' => Yii::t('app', 'Money'),
+            'note' => Yii::t('app', 'Note'),
+            'flg_thuchi' => Yii::t('app', 'Thu hoặc chi'),
             'customer_id' => Yii::t('app', 'Customer'),
         ];
     }

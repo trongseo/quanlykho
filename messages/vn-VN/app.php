@@ -10,7 +10,7 @@ return [
     'Remember Me' => 'Nhớ tôi',
     'About' => 'Giới thiệu',
     'Delivery' => 'Giao nhận',
-    'Collection' => 'Bộ sưu tập',
+    'Collection' => 'Thu chi',
     'Stockins' => 'Lưu trữ',
 
     // Products
@@ -71,9 +71,13 @@ return [
     'Profit' => 'Lợi nhuận',
 
     //Collection
-    'Create Collection' => 'Tạo bộ sưu tập',
+    'Create Collection' => 'Tạo thu chi',
 
     //Bill
-    'Bill'=>'Nhập phiếu',   
+    'Bill'=>'Nhập phiếu',
+    //error message
+    'require' => 'Vui lòng nhập',
+    'require_number' => 'Vui lòng nhập kiểu số',
+    'require_date' => 'Vui lòng nhập đúng định dạng ngày yyyy-MM-dd',
 
 ];
