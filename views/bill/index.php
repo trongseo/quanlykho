@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="kv-panel-before">
                 <div class="btn-toolbar kv-grid-toolbar toolbar-container pull-right">
-                    <div style="margin-top: 5%" class="btn-group"><a class="btn btn-success" href="/index.php?r=bill%2Fcreate">Tạo phiếu
+                    <div style="margin-top: 5%" class="btn-group"><a class="btn btn-success"
+                                                                     href="/index.php?r=bill%2Fcreate">Tạo phiếu
                             nhập</a>
                     </div>
                 </div>
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="clearfix"></div>
             </div>
             <div id="w0-container" class="table-responsive kv-grid-container">
-                <table class="kv-grid-table table table-striped kv-table-wrap " >
+                <table class="kv-grid-table table table-striped kv-table-wrap ">
                     <thead>
                     <tr>
                         <th data-col-seq="0"><a href="/index.php?r=bill%2Findex&amp;sort=idwarehouse"
@@ -50,15 +51,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                 nhập</a></th>
                     </tr>
 
-                                        <tr id="w0-filters" class="filters skip-export">
-                                            <td><input type="text" class="form-control" name="searchidưarehouse"></td>
-                                            <td><input type="text" class="form-control" name="searchidchungtu"></td>
-                                            <td><input type="text" class="form-control" name="searchproductname"></td>
-                                            <td><input type="text" class="form-control" name="searchunit_name"></td>
-                                            <td><input type="text" class="form-control" name="searchprice"></td>
-                                            <td><input type="text" class="form-control" name="searchcost"></td>
-                                            <td><input type="date" class="form-control" name="searchdate"></td>
-                                        </tr>
+                    <tr id="w0-filters" class="filters skip-export">
+                        <td><input type="text" class="form-control" name="searchidwarehouse"></td>
+
+                        <div class="btn-group"><a class="btn btn-success" href="/index.php?r=bill%2Fsearch">Tìm</a>
+                        </div>
+                        <!---->
+                        <!--                        <td><input type="text" class="form-control" name="searchidchungtu"></td>-->
+                        <!--                        <td><input type="text" class="form-control" name="searchproductname"></td>-->
+                        <!--                        <td><input type="text" class="form-control" name="searchunit_name"></td>-->
+                        <!--                        <td><input type="text" class="form-control" name="searchprice"></td>-->
+                        <!--                        <td><input type="text" class="form-control" name="searchcost"></td>-->
+                        <!--                        <td><input type="date" class="form-control" name="searchdate"></td>-->
+                    </tr>
+
 
                     </thead>
                     <tbody>
@@ -82,15 +88,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 $date = date_create($myitem['date']);
                                 echo date_format($date, "m/d/Y") ?>
                             </td>
-                            <td >
-                                <a style="border:rgba(251, 56, 33, 0.96) solid;padding: 5%;background-color: red; color: white" href="/index.php?r=bill%2Fdelete&amp;id=<?php echo($myitem['idwarehouse']); ?>" data-confirm="Chắc chắn xóa phiếu này chứ ?" data-method="post">Xóa</a></td>
+                            <td>
+                                <a style="border:rgba(251, 56, 33, 0.96) solid;padding: 5%;background-color: red; color: white"
+                                   href="/index.php?r=bill%2Fdelete&amp;id=<?php echo($myitem['idwarehouse']); ?>"
+                                   data-confirm="Chắc chắn xóa phiếu này chứ ?" data-method="post">Xóa</a></td>
                         </tr>
                         <?php
                     }
-
                     ?>
-
-
+                    
                     </tbody>
                 </table>
             </div>
