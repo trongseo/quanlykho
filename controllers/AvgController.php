@@ -48,14 +48,27 @@ class AvgController extends Controller
         if (isset($_REQUEST['year_avg'])) {
             $year_avg = $_REQUEST['year_avg'];
             $month_avg = $_REQUEST['month_avg'];
-            $giatrungbinh = Yii::$app->db->createCommand('
-                        SELECT stockin_detail.`product_id` AS productid,product.`name` AS productname,((SUM(COUNT*stockin_detail.`price`) )/(SUM(COUNT) )) AS price,SUM(count) as quantity,stockin.`time` AS timeavg
+            $myQuery ="SELECT  SUM( stockin_detail.`count`) AS countt, 
+                        SUM( stockin_detail.`price`*stockin_detail.`count`) AS sumprice, stockin_detail.`product_id` AS productid,product.`name` AS productname
+ 
                         FROM stockin_detail
                         LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
-                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`product_id`
-                        WHERE stockin.`time` LIKE \'%' . $year_avg . '' . "-" . '' . $month_avg . '%\'
-                        GROUP BY stockin_detail.`product_id`
-                ')->queryAll();
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE DATE_FORMAT(stockin.`time`,'%Y-%m ') = :yearmonth
+                        GROUP BY stockin_detail.`product_id`,product.`name`";
+
+            $commanRun = Yii::$app->db->createCommand($myQuery);
+//
+//            $commanRun = Yii::$app->db->createCommand('
+//                        SELECT stockin_detail.`product_id` AS productid,product.`name` AS productname,((SUM(COUNT*stockin_detail.`price`) )/(SUM(COUNT) )) AS price,SUM(count) as quantity,stockin.`time` AS timeavg
+//                        FROM stockin_detail
+//                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+//                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`product_id`
+//                        WHERE stockin.`time` LIKE \'%' . $year_avg . '' . "-" . '' . $month_avg . '%\'
+//                        GROUP BY stockin_detail.`product_id`
+//                ')->queryAll();
+            $commanRun->bindValue(':yearmonth', $year_avg.'-'.$month_avg);
+            $giatrungbinh= $commanRun->queryAll();
 
             foreach ($giatrungbinh as $myitem) {
                 $productid = $myitem['productid'];
