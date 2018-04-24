@@ -101,9 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         data-col-seq="2"><?php echo($myitem['quantity']); ?></td>
                                     <td style="text-align: left" data-col-seq="3"><?php echo($myitem['price']); ?></td>
                                     <td style="text-align: left" data-col-seq="4">
-                                        <?php
-                                        $date = date_create($myitem['timeavg']);
-                                        echo date_format($date, "m/Y") ?>
+
 
                                     </td>
                                 </tr>

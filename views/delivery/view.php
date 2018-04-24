@@ -72,10 +72,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'class' => 'yii\grid\DataColumn',
                 'format' => ['decimal', 2],
                 'value' => function($model, $key, $index, $widget) {
-                    return $model->count * ($model->price -
-                        ($model->product->unit =='B' ?
-                            $model->product->cost:
-                            $model->product->cost * $model->product->specification));
+                    $dongia =  $model->product->price;
+                    $profit = $model->count * ($model->price - $dongia );
+                    return $profit;
+
+//                    return $model->count * ($model->price -
+//                        ($model->product->unit =='B' ?
+//                            $model->product->cost:
+//                            $model->product->cost * $model->product->specification));
                 },
                 'pageSummary' => true,
             ],

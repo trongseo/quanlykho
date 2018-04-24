@@ -25,43 +25,45 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-<?php
-NavBar::begin([
-    'brandLabel' => 'Hệ Thống Lưu Trữ', //龙记公司出入库管理系统
-    'brandUrl' => Yii::$app->homeUrl,
-    'options' => [
-        'class' => 'navbar-inverse navbar-fixed-top',
-    ],
-]);
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
-    'items' => [
-        ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
-        ['label' => Yii::t('app','Delivery'), 'url' => ['/delivery/index']],
-        ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
-        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
-        ['label' => Yii::t('app', 'Avg'), 'url' => ['/avg/index']],
-        ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
-        ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
-        ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
-        ['label' => Yii::t('app', 'Account'), 'url' => ['/usermanager/index']],
-        ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
-        Yii::$app->user->isGuest ?
-        ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
-        [
-            'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
+    <?php
+    NavBar::begin([
+        'brandLabel' => 'Hệ Thống Lưu Trữ', //龙记公司出入库管理系统
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-inverse navbar-fixed-top',
         ],
-    ],
-]);
-NavBar::end();
-?>
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+
+            ['label' => Yii::t('app','Delivery'), 'url' => ['/delivery/index']],
+            ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
+            ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
+//        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
+
+            ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
+            ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
+            ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
+            ['label' => "QL account", 'url' => ['/usermanager/index']],
+            ['label' => "Đơn vị tính", 'url' => ['/unit/index']],
+            ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
+            Yii::$app->user->isGuest ?
+                ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
+                [
+                    'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ],
+        ],
+    ]);
+    NavBar::end();
+    ?>
 
     <div class="container">
-<?= Breadcrumbs::widget([
-    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-]) ?>
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
         <?= $content ?>
     </div>
 </div>

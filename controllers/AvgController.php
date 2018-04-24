@@ -48,8 +48,10 @@ class AvgController extends Controller
         if (isset($_REQUEST['year_avg'])) {
             $year_avg = $_REQUEST['year_avg'];
             $month_avg = $_REQUEST['month_avg'];
-            $myQuery ="SELECT  SUM( stockin_detail.`count`) AS countt, 
-                        SUM( stockin_detail.`price`*stockin_detail.`count`) AS sumprice, stockin_detail.`product_id` AS productid,product.`name` AS productname
+            $myQuery ="SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` as productid ,SUM( stockin_detail.`count`) AS quantity
  
                         FROM stockin_detail
                         LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
