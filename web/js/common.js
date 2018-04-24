@@ -16,13 +16,13 @@ function addCommas(nStr)
 function formatNumberAll(){
     $(".number_format").each(function( index ) {
         var afterCommars = addCommas( $(this).val());
-        $( "<p class='pformat'  style='float: right'  id='pformat_"+ $(this).attr('id') +"' ><b>"+afterCommars+"</b></p>" ).insertAfter( ".number_format" );
+        $( "<p class='pformat'  style='float: right'  id='pformat_"+ $(this).attr('id') +"' ><b>"+afterCommars+"</b></p>" ).insertAfter( "#"+ $(this).attr('id') );
     });
 }
 function formatNumber(objs){
         var afterCommars = addCommas( $(objs).val());
     $("#pformat_"+ $(objs).attr('id')).remove();
-        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter( ".number_format" );
+        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter(  "#"+ $(this).attr('id') );
 
 }
 $( document ).ready(function() {

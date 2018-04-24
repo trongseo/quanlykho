@@ -28,11 +28,11 @@ return [
     'Box' => 'Hộp',
     'Piece' => 'Cái',
     'Specification' =>'Mô tả',
-
+    'Collections' =>'Thu chi',
 
     'Update {modelClass}: ' => 'Cập nhật {modelClass}: ',
     // Accounts
-    'Account' => 'Tài khoản',
+    'Account' => 'DM chi phí',
     'UserManager' => 'Quản lý tài khoản',
     'Accounts' => 'Các tài khoản',
     'Account ID' => 'ID tài khoản',
@@ -40,7 +40,7 @@ return [
     'Create Account' => 'Tạo tài khoản',
     'Update' => 'Cập nhật',
     'Select Account' => 'Chọn tài khoản',
-
+    'Select' => 'Chọn',
     //Customer
     'Customer' => 'Khách hàng',
     'Customers' => 'Các khách hàng',

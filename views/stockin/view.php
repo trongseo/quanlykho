@@ -44,14 +44,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => 'product.name',
         ],
         'count',
+        'price',
         [
             'label' => Yii::t('app', 'Summary'),
             'class' => 'yii\grid\DataColumn',
-            'format' => ['decimal', 2],
+          //  'format' => ['decimal', 2],
             'value' => function($model){
-                return $model->product->unit == 'B' ?
-                    $model->count * $model->product->price:
-                    $model->count * $model->product->price * $model->product->specification;
+                return number_format( $model->count * $model->price,0, '.', ',');
+                //return $model->product->unit == 'B' ?
+                   // $model->count * $model->product->price:
+                    //$model->count * $model->product->price * $model->product->specification;
             }
         ],
 ],

@@ -19,7 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'specification'], 'integer'],
-            [['name', 'unit'], 'safe'],
+            [['name', 'unit','unit_id'], 'safe'],
             [['price', 'cost'], 'number'],
         ];
     }
@@ -62,10 +62,14 @@ class ProductSearch extends Product
             'price' => $this->price,
             'cost' => $this->cost,
         ]);
-
+      //  $query->joinwith('unit');
+        $query->joinwith('unitPro');
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'unit', $this->unit]);
+            ->andFilterWhere(['like', 'unit', $this->unit])
+           ->andFilterWhere(['like', 'unit_pro.unit_name', $this->unit_id]);
 
+//        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+//        exit();
         return $dataProvider;
     }
 }

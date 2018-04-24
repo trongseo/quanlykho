@@ -7,7 +7,8 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\CollectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Thu chi');
+$this->title = Yii::t('app', 'Collections');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="collection-index">
@@ -57,20 +58,38 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'customer_id',
                 'value' => 'customer.name',
             ],
+//            [
+//                'attribute' => 'account_id',
+//                'value' => 'account.name',
+//                'pageSummary' => Yii::t('app', 'Total'),
+//            ],
+//            [
+////                'class' => 'kartik\grid\EditableColumn',
+//                'attribute' => 'money',
+//                'format' => ['decimal',0],
+//                'pageSummary' => true,
+//            ],
             [
-                'attribute' => 'account_id',
-                'value' => 'account.name',
-                'pageSummary' => Yii::t('app', 'Total'),
-            ],
-            [
-//                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'money',
                 'format' => ['decimal',0],
+                'value' => function ($model, $key, $index, $widget) {
+                    if( $model->flg_thuchi==0){
+                        return "-".$model->money;
+                    }else{
+                        return "".$model->money;
+                    }
+
+                },
                 'pageSummary' => true,
             ],
             [
 //                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'note',
+
+            ],
+            [
+//                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'id',
 
             ],
             ['class' => 'kartik\grid\ActionColumn',

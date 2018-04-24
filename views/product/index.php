@@ -10,6 +10,8 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Products');
+
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
@@ -48,12 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
             );
         }
 ],
-    [
-        'attribute' => 'unit',
-        'value' => function ($model, $key, $index, $widget) {
-            return $model->unit == 'B' ? Yii::t('app', 'Box') :Yii::t('app', 'Piece');
-        }
+
+    [  'attribute' => 'unit_id',
+        'value' => 'unitPro.unit_name',
+
     ],
+
     [
         'attribute' => 'specification',
     ],

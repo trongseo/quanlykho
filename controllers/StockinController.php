@@ -165,7 +165,7 @@ class StockinController extends Controller
                 date_default_timezone_set("Asia/ShangHai");
                 $model->time .= ("  ". date("H:i:s"));
             }
-
+            $sumOrder = 0;
             //validate all models
             $valid = $model->validate();
             $valid = Stockin::validateMultiple($modelDetails) && $valid;
@@ -182,8 +182,11 @@ class StockinController extends Controller
                             if( ! ($flag = $modelDetail->save(false))) {
                                 $transcation->rollBack();
                             }
+                            $sumOrder += $modelDetail->count*$modelDetail->price;
                         }
                     }
+                    $model->money = $sumOrder;
+                    $model->save(false);
                     if($flag) {
                         $transcation->commit();
                         return $this->redirect(['view', 'id' => $model->id]);

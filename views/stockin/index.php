@@ -9,6 +9,7 @@ use app\models\StockinDetailSearch;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Stockins');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Stockins'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stockin-index">
@@ -83,6 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'width' => '15%',
         'format' => ['decimal', 2],
         'pageSummary' => true,
+    ],
+    [
+        'attribute' => 'id',
+        'width' => '15%',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

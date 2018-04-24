@@ -13,7 +13,7 @@ use Yii;
  * @property integer $specification
  * @property string $price
  * @property string $cost
- *
+ * @property integer $unit_id
  * @property DeliveryDetail[] $deliveryDetails
  * @property StockinDetail[] $stockinDetails
  */
@@ -33,7 +33,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'specification', 'price', 'cost'], 'required'],
+            [['name', 'specification', 'price', 'cost','unit_id'], 'required'],
             [['unit'], 'string'],
             [['specification'], 'integer'],
             [['price', 'cost'], 'number'],
@@ -53,6 +53,8 @@ class Product extends \yii\db\ActiveRecord
             'specification' => Yii::t('app', 'Specification'),
             'price' => Yii::t('app', 'Price'),
             'cost' => Yii::t('app', 'Cost'),
+            'unit_id' => Yii::t('app', 'Unit'),
+
         ];
     }
 
@@ -79,5 +81,18 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Stockin::className(), ['id' => 'stockin_id'])->viaTable('stockin_detail', ['product_id' => 'id']);
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnit()
+    {
+        return $this->hasOne(Unit::className(), ['id' => 'unit_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnitPro()
+    {
+        return $this->hasOne(UnitPro::className(), ['id' => 'unit_id']);
+    }
 }

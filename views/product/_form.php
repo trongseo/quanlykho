@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Unit;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,12 +16,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <div style="display: none">
     <?= $form->field($model, 'unit')->dropDownList([ 'P' => Yii::t('app', 'Piece'), 'B' => Yii::t('app', 'Box'), ], ['prompt' => Yii::t('app', 'Select Unit')]) ?>
-    <?= $form->field($model, 'specification')->textInput() ?>
+    </div>
+    <?= $form->field($model, 'unit_id')->dropDownList(
+        ArrayHelper::map(Unit::find()->all(), 'id', 'unit_name'),
+        [
+            'prompt' => Yii::t('app','Select'),
+        ]
+    ) ?>
+    <input type="hidden" id="product-specification"   value="0" class="form-control" name="Product[specification]" aria-required="true" aria-invalid="true">
+    <input type="hidden" id="product-price" class="form-control" name="Product[price]"  value="0">
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cost')->textInput(['maxlength' => true]) ?>
+
+    <input type="hidden" id="product-cost" class="form-control" name="Product[cost]" value="0" >
+<!--    --><?php // $form->field($model, 'cost')->textInput(['maxlength' => true]) ?>
 
 
     <div class="form-group">
