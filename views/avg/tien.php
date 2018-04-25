@@ -7,10 +7,11 @@
  */
 
 use kartik\date\DatePicker;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'Trung Bình Giá');
+$this->title = Yii::t('app', 'Báo cáo tiền nhập xuất');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'avg'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -29,7 +30,7 @@ $this->registerJs($js, $this::POS_END);
     <div class="container">
         <div class="avg-form">
 
-            <form action="/index.php?r=avg%2Findex" method="post">
+            <form action="/index.php?r=avg/tien" method="get">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
 
 
@@ -71,12 +72,24 @@ $this->registerJs($js, $this::POS_END);
 
         <div class="product-index">
 
+            <?php
+            if(isset($dataProvider))
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'productid',
+                    'productname',
+                       'price_nhap'
+                ],
+            ]);
+            ?>
+
 
             <div id="w0" class="grid-view hide-resize" data-krajee-grid="kvGridInit_0517ffd5">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                           Xuất nhập tồn
+                           Xuất nhập tiền
                         </h3>
                         <div class="clearfix"></div>
                     </div>
@@ -86,11 +99,10 @@ $this->registerJs($js, $this::POS_END);
                             <tr>
                                 <th data-col-seq="0">ID Sản Phẩm</th>
                                 <th data-col-seq="1">Tên sản phẩm</th>
-                                <th data-col-seq="2">Tổng số lượng nhập</th>
+                                <th data-col-seq="2">Tổng số tiền nhập</th>
 
-                                <th data-col-seq="3">Tổng số lượng xuất </th>
-                                <th data-col-seq="4">Tổng số lượng tồn</th>
-                                <th data-col-seq="4">Tổng số lượng tồn cuoi ki</th>
+                                <th data-col-seq="3">Tổng số tiền xuất </th>
+                                <th data-col-seq="4">Tổng số tiền lời</th>
                             </tr>
 
                             </thead>
@@ -107,19 +119,15 @@ $this->registerJs($js, $this::POS_END);
                                     <td style="text-align: left"
                                         data-col-seq="1"><?php echo($myitem['productname']); ?></td>
                                     <td style="text-align: left"
-                                        data-col-seq="2"><?php echo($myitem['quantity_nhap']); ?>
+                                        data-col-seq="2"><?php echo($myitem['price_xuat']); ?>
                                     </td>
                                     <td style="text-align: left" data-col-seq="3">
 
-                                        <?php echo($myitem['quantity_xuat']); ?>
+                                        <?php echo($myitem['price_nhap']); ?>
                                     </td>
                                     <td style="text-align: left" data-col-seq="4">
 
-                                        <?php echo($myitem['quantity_ton']); ?>
-                                    </td>
-                                    <td style="text-align: left" data-col-seq="5">
-
-                                        <?php echo($myitem['ton_cuoiki']); ?>
+                                        <?php echo($myitem['price_loi']); ?>
                                     </td>
                                 </tr>
                                 <?php

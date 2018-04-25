@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\models\Bill;
 use DateTime;
 use Yii;
+use yii\data\SqlDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -35,7 +36,7 @@ class AvgController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'prices','monthavg'],
+                        'actions' => ['index','tien', 'view', 'create', 'update', 'delete', 'prices','monthavg'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -90,6 +91,65 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`coun
                         GROUP BY delivery_detail.`product_id`,product.`name`
                         ) AS tbl_xuatthang
          ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
+            //toncuoiki
+            $myQuery="SELECT  tbl_nhapthang.quantity AS quantity_nhap,tbl_xuatthang.quantity AS quantity_xuat , 
+       tbl_nhapthang.quantity-tbl_xuatthang.quantity AS quantity_ton,subpro.quantity_ton AS ton_cuoiki, tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
+ 
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE  DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom   AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto  
+                        GROUP BY stockin_detail.`product_id`,product.`name` 
+                        ) AS tbl_nhapthang  
+        LEFT JOIN                
+
+ ( SELECT 
+                       
+SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
+ 
+                        FROM delivery_detail
+                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+                        WHERE   DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d')  <=:yearmondayto 
+                        GROUP BY delivery_detail.`product_id`,product.`name`
+                        ) AS tbl_xuatthang
+         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid
+        
+           LEFT JOIN   ( 
+( SELECT  
+       tbl_nhapthang.quantity- COALESCE(tbl_xuatthang.quantity , 0) AS quantity_ton,tbl_nhapthang.productid FROM (  SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
+ 
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE   DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <:yearmondayfrom  
+                        GROUP BY stockin_detail.`product_id`,product.`name` 
+                        ) AS tbl_nhapthang  
+        LEFT JOIN                
+
+ ( SELECT 
+                       
+SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
+ 
+                        FROM delivery_detail
+                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+                        WHERE   DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <:yearmondayfrom
+                        GROUP BY delivery_detail.`product_id`,product.`name`
+                        ) AS tbl_xuatthang
+         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid  ) AS subpro
+         ) ON tbl_xuatthang.productid =subpro.productid
+         
+         
+         ";
 
             $commanRun = Yii::$app->db->createCommand($myQuery);
             $yearmondayfrom = $_REQUEST['from_date'] ;
@@ -113,6 +173,172 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`coun
 
         return $this->render('index', [
             'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto
+        ]);
+    }
+
+
+    public function actionTien()
+    {
+        $date = new DateTime('now');
+        $date->modify('last day of this month');
+        echo $date->format('Y-m-d');
+        $yearmondayfrom = date('Y-m-01');
+
+        $yearmondayto = $date->format('Y-m-d');
+
+
+        $myQuery="   SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat , 
+       tbl_xuatthang.price- tbl_nhapthang.price  AS price_loi,tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`) AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
+ 
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY stockin_detail.`product_id`,product.`name` 
+                        ) AS tbl_nhapthang  
+        LEFT JOIN                
+
+ ( SELECT 
+                       
+SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
+ 
+                        FROM delivery_detail
+                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+                        WHERE DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY delivery_detail.`product_id`,product.`name`
+                        ) AS tbl_xuatthang
+         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
+
+        $dataProvider = new SqlDataProvider([
+            'sql' => $myQuery,
+            'params' => [':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto],
+            'totalCount' => 2,
+            //'sort' =>false, to remove the table header sorting
+            'sort' => [
+                'attributes' => [
+                    'tbl_xuatthang.productname' => [
+                        'asc' => ['tbl_xuatthang.productname' => SORT_ASC],
+                        'desc' => ['tbl_xuatthang.productname' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ]
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+        ]);
+
+
+        if (isset($_REQUEST['from_date'])) {
+
+
+
+            $myQuery="       SELECT  tbl_nhapthang.quantity AS quantity_nhap,tbl_xuatthang.quantity AS quantity_xuat , 
+       tbl_nhapthang.quantity-tbl_xuatthang.quantity AS quantity_ton,tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
+ 
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE  DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY stockin_detail.`product_id`,product.`name` 
+                        ) AS tbl_nhapthang  
+        LEFT JOIN                
+
+ ( SELECT 
+                       
+SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
+ 
+                        FROM delivery_detail
+                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+                        WHERE   DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY delivery_detail.`product_id`,product.`name`
+                        ) AS tbl_xuatthang
+         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
+
+            $myQuery="   SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat , 
+       tbl_xuatthang.price- tbl_nhapthang.price  AS price_loi,tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
+                       
+SUM( stockin_detail.`price`*stockin_detail.`count`) AS price    ,                   
+                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
+ 
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                        WHERE DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY stockin_detail.`product_id`,product.`name` 
+                        ) AS tbl_nhapthang  
+        LEFT JOIN                
+
+ ( SELECT 
+                       
+SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,                   
+                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
+ 
+                        FROM delivery_detail
+                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+                        WHERE DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY delivery_detail.`product_id`,product.`name`
+                        ) AS tbl_xuatthang
+         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
+
+            $commanRun = Yii::$app->db->createCommand($myQuery);
+            $yearmondayfrom = $_REQUEST['from_date'] ;
+            $yearmondayto =  $_REQUEST['to_date'] ;
+
+
+
+            $dataProvider = new SqlDataProvider([
+                'sql' => $myQuery,
+                'params' => [':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto],
+                'totalCount' => 2,
+                //'sort' =>false, to remove the table header sorting
+                'sort' => [
+                    'attributes' => [
+                        'tbl_xuatthang.productname' => [
+                            'asc' => ['tbl_xuatthang.productname' => SORT_ASC],
+                            'desc' => ['tbl_xuatthang.productname' => SORT_DESC],
+                            'default' => SORT_DESC,
+                            'label' => 'Post Title',
+                        ]
+                    ],
+                ],
+                'pagination' => [
+                    'pageSize' => 1,
+                ],
+            ]);
+
+
+            $commanRun->bindValue(':yearmondayfrom', $yearmondayfrom);
+            $commanRun->bindValue(':yearmondayto', $yearmondayto);
+            // DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >='2018-04-24' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <='2018-04-25'
+            $giatrungbinh= $commanRun->queryAll();
+
+//            foreach ($giatrungbinh as $myitem) {
+//                $productid = $myitem['productid'];
+//                $price = $myitem['price'];
+//                $quantity = $myitem['quantity'];
+//                $parameters = array("price" => $price, "quantity" => $quantity);
+//                Yii::$app->db->createCommand()->update('product', $parameters, "id=" . $productid)->execute();
+//            }
+            return $this->render('tien', [
+                'giatrungbinh' => $giatrungbinh,'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
+            ]);
+        }
+
+        return $this->render('tien', [
+            'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
         ]);
     }
 

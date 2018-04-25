@@ -47,6 +47,16 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
             ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
             ['label' => "QL account", 'url' => ['/usermanager/index']],
+            ['label' => 'Báo cáo',
+                'url' => ['#'],
+                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'items' => [
+                    ['label' => Yii::t('app','Số lượng'), 'url' => ['/avg/index']],
+                    ['label' => Yii::t('app','Tiền'), 'url' => ['/avg/tien']],
+                    ['label' => 'Something else here', 'url' => '#'],
+                ],
+            ],
+
             ['label' => "Đơn vị tính", 'url' => ['/unit/index']],
             ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
             Yii::$app->user->isGuest ?
@@ -56,11 +66,11 @@ AppAsset::register($this);
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
-        ],
+        ],'activateParents' => true,
     ]);
     NavBar::end();
     ?>
-
+<br/>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
