@@ -42,6 +42,7 @@ AppAsset::register($this);
             ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
 //        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
 
+        ['label' => Yii::t('app','Avg'), 'url' => ['/avg/index']],
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
             ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],

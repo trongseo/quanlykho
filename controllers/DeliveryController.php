@@ -196,11 +196,13 @@ class DeliveryController extends Controller
                         foreach ($modelDetails as $modelDetail) {
                             $modelDetail->delivery_id = $model->id;
                             //count the profit;
-                            $profit += $modelDetail->count *
-                                ($modelDetail->price -
-                                    ($modelDetail->product->unit =='B' ?
-                                        $modelDetail->product->cost:
-                                        $modelDetail->product->cost * $modelDetail->product->specification));
+//                            $profit += $modelDetail->count *
+//                                ($modelDetail->price -
+//                                    ($modelDetail->product->unit =='B' ?
+//                                        $modelDetail->product->cost:
+//                                        $modelDetail->product->cost * $modelDetail->product->specification));
+                            $dongia =  $modelDetail->product->price;
+                            $profit += $modelDetail->count * ($modelDetail->price - $dongia );
                             if( ! ($flag = $modelDetail->save(false))) {
                                 $transcation->rollBack();
                             }

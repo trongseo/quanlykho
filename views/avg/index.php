@@ -6,12 +6,23 @@
  * Time: 11:21 AM
  */
 
+use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('app', 'Trung Bình Giá');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'avg'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$js = <<<JS
+
+
+
+JS;
+
+$this->registerJs($js, $this::POS_END);
+
 ?>
 
 <div class="wrap">
@@ -25,7 +36,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group field-avg-productname">
+                            <?php
+                            echo '<label class="control-label">Valid Dates</label>';
+
+                            echo DatePicker::widget([
+                                'name' => 'from_date',
+                                'value' => $yearmondayfrom,
+                                'type' => DatePicker::TYPE_RANGE,
+                                'name2' => 'to_date',
+                                'value2' => $yearmondayto,
+                                'pluginOptions' => [
+                                    'autoclose'=>true,
+                                    'format' => 'yyyy-mm-dd'
+                                ]
+                            ]);
+                            ?>
                             <label class="control-label" for="avg-month">Chọn Tháng</label>
+
+
+                            <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+
+                            <script type="text/javascript">
+
+                            </script>
                             <select id="month_avg" name="month_avg" class="form-control">
                                 <option value="01">Tháng 1</option>
                                 <option value="02">Tháng 2</option>
@@ -79,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tr>
                                 <th data-col-seq="0">ID Sản Phẩm</th>
                                 <th data-col-seq="1">Tên sản phẩm</th>
-                                <th data-col-seq="2">Tổng số lượng</th>
+                                <th data-col-seq="2">Tổng số lượng ton</th>
                                 <th data-col-seq="3">Giá trung bình</th>
                                 <th data-col-seq="4">Thời gian</th>
                             </tr>
@@ -98,8 +131,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td style="text-align: left"
                                         data-col-seq="1"><?php echo($myitem['productname']); ?></td>
                                     <td style="text-align: left"
-                                        data-col-seq="2"><?php echo($myitem['quantity']); ?></td>
-                                    <td style="text-align: left" data-col-seq="3"><?php echo($myitem['price']); ?></td>
+                                        data-col-seq="2"><?php echo($myitem['quantity_nhap']); ?>- <?php echo($myitem['quantity_xuat']); ?>
+                                        =<?php echo($myitem['quantity_ton']); ?>
+                                    </td>
+
                                     <td style="text-align: left" data-col-seq="4">
 
 
