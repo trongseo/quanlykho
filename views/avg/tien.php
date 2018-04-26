@@ -9,6 +9,7 @@
 use kartik\date\DatePicker;
 use kartik\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('app', 'Báo cáo tiền nhập xuất');
@@ -30,9 +31,11 @@ $this->registerJs($js, $this::POS_END);
     <div class="container">
         <div class="avg-form">
 
-            <form action="/index.php?r=avg/tien" method="get">
-                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
 
+
+            <form action="/index.php" method="get">
+                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
+                <input type="hidden" name="r" value="avg/tien">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -71,15 +74,39 @@ $this->registerJs($js, $this::POS_END);
 
 
         <div class="product-index">
-
+           	Tên sản phẩm	Tổng số tiền xuất	Tổng số tiền lời
             <?php
             if(isset($dataProvider))
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => [
-                    'productid',
-                    'productname',
-                       'price_nhap'
+
+                    [
+                        'label' => 'ID Sản Phẩm',
+                        'value' => 'productid',
+                    ],
+                    [
+                        'label' => 'Tên sản phẩm',
+                        'value' => 'productname',
+                    ],
+                    [
+                        'label' => 'Tổng số tiền xuất',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                                return number_format(  $arrData['price_xuat']);
+                        }
+                    ],
+                    [
+                        'label' => 'Tổng số tiền xuất',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                            return number_format(  $arrData['price_nhap']);
+                        }
+                    ],
+                    [
+                        'label' => 'Tổng số tiền lời',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                            return number_format(  $arrData['price_loi']);
+                        }
+                    ],
                 ],
             ]);
             ?>

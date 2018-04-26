@@ -137,7 +137,7 @@ $this->registerJs($js, $this::POS_END);
                 </div>
             </div>
         </div>
-        <input type="button" value="Backup Month" class="btn btn-success" onClick="document.location.href='/index.php?r=avg%2Fmonthavg'" />
+
 
     </div>
 </div>
