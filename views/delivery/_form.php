@@ -1,7 +1,9 @@
 <?php
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
@@ -84,10 +86,12 @@ $("body").on("change", ".detail-price", function() {
     total_item.html(($(this).val() * count_item.val()).toFixed(0));
     updateMoney();
 });
+
 JS;
 
 $this->registerJs($js, $this::POS_END);
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends'=>[\yii\web\JqueryAsset::className()], 'position'=>View::POS_END]); ?>
 ?>
 
 <div class="delivery-form">
@@ -111,10 +115,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => 
                 ]
             ]);?>
             </div>
-            <?= $form->field($model, 'customer_id')->dropDownList(
-                ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
-                ['prompt' => Yii::t('app','Select Customer')]
-            ) ?>
+
+            <?php
+            echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
+                'language' => 'vn',
+                'options' => ['placeholder' => 'Tìm chọn khách hàng.'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+
+            ?>
             <?= $form->field($model, 'money')->textInput() ?>
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
@@ -153,13 +165,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => 
                                 ?>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <?= $form->field($modelDetail, "[{$i}]product_id")->dropDownList(
-                                            ArrayHelper::map(Product::find()->all(), 'id', 'name'),
-                                            [
-                                                'prompt' => Yii::t('app','Select Product'),
-                                                'class' => 'form-control detail-product-id',
-                                            ]
-                                        );?>
+
+                                        <?php
+                                        echo $form->field($modelDetail, "[{$i}]product_id")->widget(Select2::classname(), [
+                                            'data' => ArrayHelper::map(Product::find()->all(), 'id', 'name'),
+                                            'language' => 'vn',
+                                            'options' => ['placeholder' => 'Chọn sản phẩm'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ]);
+
+                                        ?>
                                     </div>
                                     <div class="col-sm-6">
                                         <?= $form->field($modelDetail, "[{$i}]count")->textInput([

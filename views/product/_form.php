@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Unit;
+use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -19,12 +20,19 @@ use yii\widgets\ActiveForm;
     <div style="display: none">
     <?= $form->field($model, 'unit')->dropDownList([ 'P' => Yii::t('app', 'Piece'), 'B' => Yii::t('app', 'Box'), ], ['prompt' => Yii::t('app', 'Select Unit')]) ?>
     </div>
-    <?= $form->field($model, 'unit_id')->dropDownList(
-        ArrayHelper::map(\app\models\UnitPro::find()->all(), 'id', 'unit_name'),
-        [
-            'prompt' => Yii::t('app','Select'),
-        ]
-    ) ?>
+
+    <?php
+    echo $form->field($model, 'unit_id')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(\app\models\UnitPro::find()->all(), 'id', 'unit_name'),
+        'language' => 'vn',
+        'options' => ['placeholder' => 'Tìm chọn sản phẩm.'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+
+    ?>
+
     <input type="hidden" id="product-specification"   value="0" class="form-control" name="Product[specification]" aria-required="true" aria-invalid="true">
     <input type="hidden" id="product-price" class="form-control" name="Product[price]"  value="0">
 
