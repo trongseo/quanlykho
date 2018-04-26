@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'tableOptions' => [
-        'style'=>'text-align:center',
+        'style'=>'text-align:left',
     ],
     'bordered' => false,
     'toolbar' => [
@@ -56,15 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ],
 
-    [
-        'attribute' => 'specification',
-    ],
-    [
-        'attribute' => 'price',
-    ],
-    [
-        'attribute' => 'cost',
-    ],
+
 
 ],
     ]); ?>

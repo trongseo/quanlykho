@@ -234,103 +234,18 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,
         $date->modify('last day of this month');
        // echo $date->format('Y-m-d');
         $yearmondayfrom = date('Y-m-01');
-
         $yearmondayto = $date->format('Y-m-d');
         $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
 
         //$myQuery =  $this->getQueryTien($para);
-        $dataProvider = $this->getSqlDataProviderTien($para);
+
 
         if (isset($_REQUEST['from_date'])) {
-
-            $myQuery="       SELECT  tbl_nhapthang.quantity AS quantity_nhap,tbl_xuatthang.quantity AS quantity_xuat , 
-       tbl_nhapthang.quantity-tbl_xuatthang.quantity AS quantity_ton,tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
-                       
-SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
-                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
- 
-                        FROM stockin_detail
-                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
-                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
-                        WHERE  DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY stockin_detail.`product_id`,product.`name` 
-                        ) AS tbl_nhapthang  
-        LEFT JOIN                
-
- ( SELECT 
-                       
-SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`count`)  AS price    ,                   
-                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
- 
-                        FROM delivery_detail
-                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
-                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
-                        WHERE   DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY delivery_detail.`product_id`,product.`name`
-                        ) AS tbl_xuatthang
-         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
-
-            $myQuery="   SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat , 
-       tbl_xuatthang.price- tbl_nhapthang.price  AS price_loi,tbl_xuatthang.productname ,tbl_xuatthang.productid FROM (  SELECT 
-                       
-SUM( stockin_detail.`price`*stockin_detail.`count`) AS price    ,                   
-                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
- 
-                        FROM stockin_detail
-                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
-                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
-                        WHERE DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY stockin_detail.`product_id`,product.`name` 
-                        ) AS tbl_nhapthang  
-        LEFT JOIN                
-
- ( SELECT 
-                       
-SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,                   
-                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
- 
-                        FROM delivery_detail
-                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
-                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
-                        WHERE DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY delivery_detail.`product_id`,product.`name`
-                        ) AS tbl_xuatthang
-         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
-
-            $commanRun = Yii::$app->db->createCommand($myQuery);
             $yearmondayfrom = $_REQUEST['from_date'] ;
             $yearmondayto =  $_REQUEST['to_date'] ;
-
-            $dataProvider = new SqlDataProvider([
-                'sql' => $myQuery,
-                'params' => [':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto],
-                'totalCount' => 200,
-                //'sort' =>false, to remove the table header sorting
-                'sort' => [
-                    'attributes' => [
-                        'tbl_xuatthang.productname' => [
-                            'asc' => ['tbl_xuatthang.productname' => SORT_ASC],
-                            'desc' => ['tbl_xuatthang.productname' => SORT_DESC],
-                            'default' => SORT_DESC,
-                            'label' => 'Post Title',
-                        ]
-                    ],
-                ],
-                'pagination' => [
-                    'pageSize' => 200,
-                ],
-            ]);
-
-
-            $commanRun->bindValue(':yearmondayfrom', $yearmondayfrom);
-            $commanRun->bindValue(':yearmondayto', $yearmondayto);
-            $giatrungbinh= $commanRun->queryAll();
-
-            return $this->render('tien', [
-                'giatrungbinh' => $giatrungbinh,'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
-            ]);
+            $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
         }
-
+        $dataProvider = $this->getSqlDataProviderTien($para);
         return $this->render('tien', [
             'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
         ]);
@@ -374,16 +289,23 @@ SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)
     }
     public function actionGiatb()
     {
+
         $date = new DateTime('now');
         $date->modify('last day of this month');
         // echo $date->format('Y-m-d');
         $yearmondayfrom = date('Y-m-01');
-
         $yearmondayto = $date->format('Y-m-d');
-        $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+       // $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
 
         //$myQuery =  $this->getQueryTien($para);
-        $dataProvider = $this->getSqlDataProviderTien($para);
+
+        if (isset($_REQUEST['from_date'])) {
+            $yearmondayfrom =  $_REQUEST['from_date'];
+            $yearmondayto =  $_REQUEST['to_date'];
+
+        }
+        $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+        $dataProvider = $this->getSqlDataProviderGiatb($para);
         return $this->render('giatb', [
             'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
         ]);

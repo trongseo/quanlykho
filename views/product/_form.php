@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'unit')->dropDownList([ 'P' => Yii::t('app', 'Piece'), 'B' => Yii::t('app', 'Box'), ], ['prompt' => Yii::t('app', 'Select Unit')]) ?>
     </div>
     <?= $form->field($model, 'unit_id')->dropDownList(
-        ArrayHelper::map(Unit::find()->all(), 'id', 'unit_name'),
+        ArrayHelper::map(\app\models\UnitPro::find()->all(), 'id', 'unit_name'),
         [
             'prompt' => Yii::t('app','Select'),
         ]

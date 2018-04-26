@@ -77,26 +77,26 @@ $this->registerJs($js, $this::POS_END);
 
             <?php
             if(isset($dataProvider))
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
+                echo GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
 
-                    [
-                        'label' => 'ID Sản Phẩm',
-                        'value' => 'productid',
-                    ],
-                    [
-                        'label' => 'Tên sản phẩm',
-                        'value' => 'productname',
-                    ],
-                    [
-                        'label' => 'Giá trung bình',
-                        'value' => function ($arrData, $key, $index, $widget) {
+                        [
+                            'label' => 'ID Sản Phẩm',
+                            'value' => 'productid',
+                        ],
+                        [
+                            'label' => 'Tên sản phẩm',
+                            'value' => 'productname',
+                        ],
+                        [
+                            'label' => 'Giá trung bình',
+                            'value' => function ($arrData, $key, $index, $widget) {
                                 return number_format(  $arrData['price_tb']);
-                        }
-                    ]
-                ],
-            ]);
+                            }
+                        ]
+                    ],
+                ]);
             ?>
 
 

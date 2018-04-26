@@ -89,8 +89,8 @@ $this->registerJs($js, $this::POS_END);
                                 <th data-col-seq="2">Tổng số lượng nhập</th>
 
                                 <th data-col-seq="3">Tổng số lượng xuất </th>
-                                <th data-col-seq="4">Tổng số lượng tồn</th>
-                                <th data-col-seq="4">Tổng số lượng tồn cuoi ki</th>
+                                <th data-col-seq="4">Tổng số lượng tồn trong kì</th>
+                                <th data-col-seq="4">Tổng số lượng tồn trước kì</th>
                             </tr>
 
                             </thead>

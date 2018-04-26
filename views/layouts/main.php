@@ -40,22 +40,24 @@ AppAsset::register($this);
             ['label' => Yii::t('app','Delivery'), 'url' => ['/delivery/index']],
             ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
             ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
-//        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
-
-        ['label' => Yii::t('app','Avg'), 'url' => ['/avg/index']],
-            ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
-            ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
-            ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
-            ['label' => "QL account", 'url' => ['/usermanager/index']],
             ['label' => 'Báo cáo',
                 'url' => ['#'],
                 'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
                 'items' => [
                     ['label' => Yii::t('app','Số lượng'), 'url' => ['/avg/index']],
                     ['label' => Yii::t('app','Tiền'), 'url' => ['/avg/tien']],
+                    ['label' => Yii::t('app','Giá trung bình'), 'url' => ['/avg/giatb']],
                     ['label' => 'Something else here', 'url' => '#'],
                 ],
             ],
+//        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
+
+
+            ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
+            ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
+            ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
+            
+
 
             ['label' => "Đơn vị tính", 'url' => ['/unit/index']],
             ['label' => Yii::t('app','About'), 'url' => ['/site/about']],

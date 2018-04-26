@@ -32,11 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             [
                 'label' => Yii::t('app','Unit'),
-                'value' => $model->unit == 'B' ? Yii::t('app', 'Box') : Yii::t('app', 'Piece'),
+                //'value' => $model->unit == 'B' ? Yii::t('app', 'Box') : Yii::t('app', 'Piece'),
+                'value' => $model->unitPro->unit_name,
             ],
-            'specification',
-            'price',
-            'cost',
+//            'specification',
+//            'price',
+//            'cost',
         ],
     ]) ?>
 

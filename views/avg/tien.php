@@ -112,77 +112,14 @@ $this->registerJs($js, $this::POS_END);
             ?>
 
 
-            <div id="w0" class="grid-view hide-resize" data-krajee-grid="kvGridInit_0517ffd5">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                           Xuất nhập tiền
-                        </h3>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div id="w0-container" class="table-responsive kv-grid-container">
-                        <table class="kv-grid-table table table-striped kv-table-wrap ">
-                            <thead>
-                            <tr>
-                                <th data-col-seq="0">ID Sản Phẩm</th>
-                                <th data-col-seq="1">Tên sản phẩm</th>
-                                <th data-col-seq="2">Tổng số tiền nhập</th>
 
-                                <th data-col-seq="3">Tổng số tiền xuất </th>
-                                <th data-col-seq="4">Tổng số tiền lời</th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-
-                            <?php
-
-                            foreach ($giatrungbinh as $myitem) {
-                                ?>
-
-                                <tr data-key="1">
-                                    <td style="text-align: left"
-                                        data-col-seq="0"><?php echo($myitem['productid']); ?></td>
-                                    <td style="text-align: left"
-                                        data-col-seq="1"><?php echo($myitem['productname']); ?></td>
-                                    <td style="text-align: left"
-                                        data-col-seq="2"><?php echo($myitem['price_xuat']); ?>
-                                    </td>
-                                    <td style="text-align: left" data-col-seq="3">
-
-                                        <?php echo($myitem['price_nhap']); ?>
-                                    </td>
-                                    <td style="text-align: left" data-col-seq="4">
-
-                                        <?php echo($myitem['price_loi']); ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="kv-panel-after"></div>
-                    <div class="panel-footer">
-                        <div class="kv-panel-pager">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <input type="button" value="Backup Month" class="btn btn-success" onClick="document.location.href='/index.php?r=avg%2Fmonthavg'" />
+
 
     </div>
 </div>
 
 </div>
 
-<script src="/assets/d70fefba/jquery.js"></script>
-<script src="/assets/41dee904/yii.js"></script>
-<script src="/assets/41dee904/yii.validation.js"></script>
-<script src="/assets/41dee904/yii.activeForm.js"></script>
-<script src="/assets/bc28ee4d/js/bootstrap.js"></script>
 
 
