@@ -5,9 +5,9 @@
 //define('APP_HOST', 'localhost');
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host='.APP_HOST.';dbname='.APP_DB,
-    'username' => APP_USERNAME,
-    'password' => APP_PASSWORD,
+    'dsn' => 'mysql:host=192.168.2.100;dbname=zzzstock',
+    'username' => 'root',
+    'password' => '123456789',
     'charset' => 'utf8',
     'tablePrefix' => '',
     'enableSchemaCache' => false,

@@ -3,6 +3,8 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use webvimark\modules\UserManagement\components\GhostMenu;
+use webvimark\modules\UserManagement\UserManagementModule;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -33,6 +35,27 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    echo GhostMenu::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels'=>false,
+        'activateParents'=>true,
+        'items' => [
+            [
+                'label' => 'Backend routes',
+                'items'=>UserManagementModule::menuItems()
+            ],
+            [
+                'label' => 'Frontend routes',
+                'items'=>[
+                    ['label'=>'Login', 'url'=>['/user-management/auth/login']],
+                    ['label'=>'Logout', 'url'=>['/user-management/auth/logout']],
+                    ['label'=>'Registration', 'url'=>['/user-management/auth/registration']],
+                    ['label'=>'Change own password', 'url'=>['/user-management/auth/change-own-password']],
+                    ['label'=>'Password recovery', 'url'=>['/user-management/auth/password-recovery']],
+                    ['label'=>'E-mail confirmation', 'url'=>['/user-management/auth/confirm-email']],
+                ],
+            ],
+        ],]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -56,18 +79,25 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
             ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
-            
+
 
 
             ['label' => "Đơn vị tính", 'url' => ['/unit/index']],
             ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
             Yii::$app->user->isGuest ?
-                ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
-                [
-                    'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                ['label' => Yii::t('app', 'Login'), 'url' => ['/user-management/auth/login']] :
+                ['label' =>  Yii::$app->user->identity->username,
+                    'url' => ['#'],
+                    'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                    'items' => [
+
+                        ['label' =>  Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')', 'url' => ['/user-management/auth/logout']],
+                        ['label'=>'Change own password', 'url'=>['/user-management/auth/change-own-password']],
+                        ['label' => 'Something else here', 'url' => '#'],
+                    ],
                 ],
+
+
         ],'activateParents' => true,
     ]);
     NavBar::end();

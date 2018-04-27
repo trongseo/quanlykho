@@ -35,6 +35,9 @@ class ProductController extends Controller
                     ],
                 ],
             ],
+            'ghost-access'=> [
+                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+            ],
         ];
     }
 
@@ -44,6 +47,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
