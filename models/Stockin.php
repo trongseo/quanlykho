@@ -31,7 +31,8 @@ class Stockin extends \yii\db\ActiveRecord
     {
         return [
             [['time'], 'safe'],
-            [['money'], 'number']
+            [['money'], 'number'],
+            [['note'], 'string']
         ];
     }
 
@@ -45,6 +46,7 @@ class Stockin extends \yii\db\ActiveRecord
             'time' => Yii::t('app', 'Time'),
             'money' => Yii::t('app', 'Money'),
             'detailCount' => Yii::t('app', 'Count'),
+            'note'=>Yii::t('app','Ghi chú'),
         ];
     }
 

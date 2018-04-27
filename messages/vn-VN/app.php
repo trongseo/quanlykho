@@ -58,6 +58,7 @@ return [
     'Stockin' => 'Nhập kho',
     'Count' => 'Số lượng',
     'Details' => 'Chi tiết',
+    'Note'=>'Ghi chú',
 
     //Delivery
     'Deliveries' => 'Xuất kho',
@@ -79,5 +80,7 @@ return [
     'require' => 'Vui lòng nhập',
     'require_number' => 'Vui lòng nhập kiểu số',
     'require_date' => 'Vui lòng nhập đúng định dạng ngày yyyy-MM-dd',
+
+
 
 ];

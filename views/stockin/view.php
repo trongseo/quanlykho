@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //$model->count * $model->product->price * $model->product->specification;
             }
         ],
+
 ],
     ]) ?>
 

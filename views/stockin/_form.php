@@ -90,7 +90,7 @@ JS;
 
 $this->registerJs($js, $this::POS_END);
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends'=>[\yii\web\JqueryAsset::className()], 'position'=>View::POS_END]); ?>
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends'=>[\yii\web\JqueryAsset::className()], 'position'=>View::POS_END]);
 ?>
 
 <div class="stockin-form">
@@ -123,7 +123,19 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                         'class' => 'form-control number_format',
                     ]) ?>
                 </div>
+                <div class="col-sm-12">
+
+                    <?= $form->field($model, 'note')->textInput([
+                        'type' => "string",
+                    ]) ?>
+
+
+                </div>
+
             </div>
+
+
+
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',
@@ -153,6 +165,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                                 class="glyphicon glyphicon-minus"></i></button>
                                 </div>
                                 <div class="clearfix"></div>
+
+
                             </div>
                             <div class="panel-body">
                                 <?php
@@ -161,7 +175,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                     echo Html::activeHiddenInput($modelDetail, "[{$i}]id");
                                 }
                                 ?>
+
+
                                 <div class="row">
+
                                     <div class="col-sm-6">
 
 
@@ -177,6 +194,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
 
                                         ?>
                                     </div>
+
                                     <div class="col-sm-6">
                                         <?= $form->field($modelDetail, "[{$i}]count")->textInput([
                                             'maxlength' => true,
@@ -184,6 +202,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                         ]) ?>
                                     </div>
                                     <div class="clearfix"></div>
+
+
+
                                     <div class="col-sm-6">
                                         <?= $form->field($modelDetail, "[{$i}]price")->textInput([
                                             'maxlength' => true, 'type' =>'number',
@@ -204,6 +225,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                             ?>
                                         </em>
                                     </div>
+
+
                                     <div class="col-sm-6 pull-right">
                                         <strong><?= Yii::t("app", 'Total').' : ' ?></strong>
                                         <em class="pull-right detail-total">
@@ -232,6 +255,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                         </em>
                                     </div>
                                     <div class="clearfix"></div>
+
+
                                 </div><!-- .row -->
                             </div>
                         </div>
