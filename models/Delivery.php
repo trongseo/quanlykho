@@ -38,7 +38,7 @@ class Delivery extends \yii\db\ActiveRecord
             [['customer_id'], 'integer'],
             [['time'], 'safe'],
             [['money', 'profit'], 'number'],
-            [['state'], 'string']
+            [['state','note'], 'string']
         ];
     }
 
@@ -55,6 +55,7 @@ class Delivery extends \yii\db\ActiveRecord
             'profit' => Yii::t('app', 'Profit'),
             'state' => Yii::t('app', 'State'),
             'detailCount' => Yii::t('app', 'Count'),
+            'note'=>Yii::t('app','Note' ),
         ];
     }
 

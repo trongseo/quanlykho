@@ -123,7 +123,20 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                         'class' => 'form-control number_format',
                     ]) ?>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <?php
+                    echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
+                        'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
+                        'language' => 'vn',
+                        'options' => ['placeholder' => 'Tìm chọn khách hàng.'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    ?>
+                </div>
+                
+                <div class="col-sm-6">
 
                     <?= $form->field($model, 'note')->textInput([
                         'type' => "string",
@@ -211,7 +224,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                             'class' => 'number_format  form-control detail-price',
                                         ]) ?>
 
-                                        <strong><?= Yii::t('app', 'Price').' : ' ?></strong>
                                         <em class="pull-right" style="display: none">
                                             <?php
                                             if($modelDetail->product) {
