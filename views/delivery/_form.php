@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use wbraganca\dynamicform\DynamicFormWidget;
 use app\models\Product;
 use app\models\Customer;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Delivery */
 /* @var $form yii\widgets\ActiveForm */
@@ -90,9 +91,9 @@ $("body").on("change", ".detail-price", function() {
 JS;
 
 $this->registerJs($js, $this::POS_END);
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js',['depends' => [JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends'=>[\yii\web\JqueryAsset::className()], 'position'=>View::POS_END]); ?>
-?>
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/common.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depends' => [\yii\web\JqueryAsset::className()], 'position' => View::POS_END]); ?>
+
 
 <div class="delivery-form">
 
@@ -103,31 +104,40 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="form-group field-delivery-time">
-            <label class="control-label" for="delivery-time"><?= Yii::t('app', 'Time') ?> </label>
-            <?= DatePicker::widget([
-                'id' => 'delivery-time',
-                'name' => 'Delivery[time]',
-                'value' => $model->time ? $model->time :date('Y-m-d', strtotime('today')),
-                'options' => ['placeholder' => Yii::t('app','Select Time')],
-                'pluginOptions' => [
-                    'format' => 'yyyy-m-dd',
-                    'todayHighLight' => true,
-                ]
-            ]);?>
+                <label class="control-label" for="delivery-time"><?= Yii::t('app', 'Time') ?> </label>
+                <?= DatePicker::widget([
+                    'id' => 'delivery-time',
+                    'name' => 'Delivery[time]',
+                    'value' => $model->time ? $model->time : date('Y-m-d', strtotime('today')),
+                    'options' => ['placeholder' => Yii::t('app', 'Select Time')],
+                    'pluginOptions' => [
+                        'format' => 'yyyy-m-dd',
+                        'todayHighLight' => true,
+                    ]
+                ]); ?>
             </div>
 
-            <?php
-            echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
-                'language' => 'vn',
-                'options' => ['placeholder' => 'Tìm chọn khách hàng.'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]);
+            <div class="col-sm-6">
+                <?= $form->field($model, 'note')->textInput([
+                    'type' => "string",
+                ]) ?>
+            </div>
 
-            ?>
+            <div class="col-sm-6">
+                <?php
+                echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
+                    'language' => 'vn',
+                    'options' => ['placeholder' => 'Tìm chọn khách hàng.'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+
             <?= $form->field($model, 'money')->textInput() ?>
+
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',
@@ -151,15 +161,17 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                             <div class="panel-heading">
                                 <h3 class="panel-title pull-left"><?= Yii::t('app', 'Product') ?></h3>
                                 <div class="pull-right">
-                                    <button type="button" class="add-item btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
-                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                                    <button type="button" class="add-item btn btn-success btn-xs"><i
+                                            class="glyphicon glyphicon-plus"></i></button>
+                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i
+                                            class="glyphicon glyphicon-minus"></i></button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="panel-body">
                                 <?php
                                 // necessary for update action.
-                                if (! $modelDetail->isNewRecord) {
+                                if (!$modelDetail->isNewRecord) {
                                     echo Html::activeHiddenInput($modelDetail, "[{$i}]id");
                                 }
                                 ?>
@@ -191,16 +203,16 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                                         ]) ?>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label class="control-label"><?= Yii::t('app', 'Total').' : ' ?></label>
+                                        <label class="control-label"><?= Yii::t('app', 'Total') . ' : ' ?></label>
                                         <div class="clearfix"></div>
                                         <em class="pull-right detail-total">
-                                        <?php
-                                        if ($modelDetail->price){
-                                            echo number_format($modelDetail->price * $modelDetail->count, 0, '.','');
-                                        }else{
-                                            echo '0';
-                                        }
-                                        ?>
+                                            <?php
+                                            if ($modelDetail->price) {
+                                                echo number_format($modelDetail->price * $modelDetail->count, 0, '.', '');
+                                            } else {
+                                                echo '0';
+                                            }
+                                            ?>
                                         </em>
                                     </div>
                                 </div><!-- .row -->
@@ -212,10 +224,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
             </div>
         </div>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
