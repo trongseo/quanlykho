@@ -89,8 +89,9 @@ $this->registerJs($js, $this::POS_END);
                                 <th data-col-seq="2">Tổng số lượng nhập</th>
 
                                 <th data-col-seq="3">Tổng số lượng xuất </th>
-                                <th data-col-seq="4">Tổng số lượng tồn trong kì</th>
-                                <th data-col-seq="4">Tổng số lượng tồn trước kì</th>
+                                <th data-col-seq="4">Tồn trước kì</th>
+                                <th data-col-seq="4">Tồn trong kì</th>
+                                <th data-col-seq="4">Tồn cuối kì</th>
                             </tr>
 
                             </thead>
@@ -113,13 +114,17 @@ $this->registerJs($js, $this::POS_END);
 
                                         <?php echo($myitem['quantity_xuat']); ?>
                                     </td>
+                                    <td style="text-align: left" data-col-seq="5">
+
+                                        <?php echo($myitem['ton_cuoiki']); ?>
+                                    </td>
                                     <td style="text-align: left" data-col-seq="4">
 
                                         <?php echo($myitem['quantity_ton']); ?>
                                     </td>
                                     <td style="text-align: left" data-col-seq="5">
 
-                                        <?php echo($myitem['ton_cuoiki']); ?>
+                                        <?php echo($myitem['ton_cuoiki']+$myitem['quantity_ton']); ?>
                                     </td>
                                 </tr>
                                 <?php

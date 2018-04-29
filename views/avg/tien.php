@@ -102,9 +102,21 @@ $this->registerJs($js, $this::POS_END);
                         }
                     ],
                     [
-                        'label' => 'Tổng số tiền lời',
+                        'label' => 'Lời trước kì',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                            return number_format(  $arrData['price_loi_truocki']);
+                        }
+                    ],
+                    [
+                        'label' => 'Lời trong kì',
                         'value' => function ($arrData, $key, $index, $widget) {
                             return number_format(  $arrData['price_loi']);
+                        }
+                    ],
+                    [
+                        'label' => 'Lời trong cuối kì',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                            return number_format(  $arrData['price_loi']+ $arrData['price_loi_truocki']);
                         }
                     ],
                 ],

@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Customer;
+use kartik\file\FileInput;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
@@ -133,12 +135,25 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                             'allowClear' => true
                         ],
                     ]);
+
+
+                    echo  $form->field($model, 'image1')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                        'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],
+                            'showUpload' => false,
+                            'initialPreview'=> [
+                                '<img src="'.$model->image1.'" class="file-preview-image">',
+                            ],
+                       ],
+                    ])->label("Hình chứng từ");
+
                     ?>
+
                 </div>
                 
                 <div class="col-sm-6">
 
-                    <?= $form->field($model, 'note')->textInput([
+                    <?= $form->field($model, 'note')->textarea([
                         'type' => "string",
                     ]) ?>
 

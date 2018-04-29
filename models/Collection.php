@@ -12,6 +12,7 @@ use Yii;
  * @property string $time
  * @property string $money
  * @property string $note
+ * @property string $username
  * @property integer $customer_id
  * @property integer $flg_thu_chi
  * @property Customer $customer
@@ -43,7 +44,7 @@ class Collection extends \yii\db\ActiveRecord
             [['account_id', 'customer_id'], 'integer'],
             [['time'], 'safe'],
             [['money','flg_thuchi'], 'number','message' =>$require_number],
-            [['note'], 'string', 'max' => 128]
+            [['note','username'], 'string', 'max' => 128]
 
         ];
     }

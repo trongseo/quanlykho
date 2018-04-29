@@ -25,7 +25,8 @@
         "kartik-v/yii2-widget-datepicker": "dev-master",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-widget-select2": "^2.1",
-        "webvimark/module-user-management": "*"
+        "webvimark/module-user-management": "*",
+        "kartik-v/yii2-widget-fileinput": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

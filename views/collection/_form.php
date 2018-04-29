@@ -46,6 +46,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js?ver=3',['depend
     <?= $form->field($model, 'flg_thuchi')->radioList([1 => 'Thu tiền', 0 => 'Chi tiền'])->label('Thu chi'); ?>
 
 
+    <?= $form->field($model, 'username')->hiddenInput(['value'=>  Yii::$app->user->username]) ?>
     <?= $form->field($model, 'money')->textInput(['class'=>'number_format form-control','type'=>'number','maxlength' => true])->label('Số tiền') ?>
 
 

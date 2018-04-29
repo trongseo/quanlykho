@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 /**
  * CollectionController implements the CRUD actions for Collection model.
  */
-class CollectionController extends Controller
+class CollectionController extends AppController
 {
     public function behaviors()
     {
@@ -47,6 +47,7 @@ class CollectionController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new CollectionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -109,12 +110,14 @@ class CollectionController extends Controller
 
 
         $model = $this->findModel($id);
+
+        $this->checkPermissionModel($model);
         $oldMoney = $model->money;
 
         if ($model->load(Yii::$app->request->post())) {
             // set the time
             if ($model->time) {
-                date_default_timezone_set("Asia/ShangHai");
+                $this->date_default_timezone_set();
                 $model->time .= ("  ". date("H:i:s"));
             }
 //            if($model->flg_thuchi==0){

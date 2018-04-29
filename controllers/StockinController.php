@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
@@ -110,6 +111,19 @@ class StockinController extends Controller
             if($valid) {
                 $transcation = Yii::$app->db->beginTransaction();
                 try{
+                    //upload image
+                    $image = UploadedFile::getInstance($model, 'image1');
+                    if (!is_null($image)) {
+                        $model->image1 = $image->name;
+                        $ext = end((explode(".", $image->name)));
+                        // generate a unique file name to prevent duplicate filenames
+                        $model->image1 = Yii::$app->security->generateRandomString().".{$ext}";
+                        // the path to save file, you can set an uploadPath
+                        // in Yii::$app->params (as used in example below)
+                        Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/';
+                        $path = Yii::$app->params['uploadPath'] . $model->image1;
+                        $image->saveAs($path);
+                    }
                     if($flag = $model->save(false)) {
                         foreach ($modelDetails as $modelDetail) {
                             $modelDetail->stockin_id = $model->id;
@@ -143,7 +157,7 @@ class StockinController extends Controller
     {
         $model = $this->findModel($id);
         $modelDetails = $model->stockinDetails;
-
+        $model->image1 = '/uploads/'. $model->image1;
         if ($model->load(Yii::$app->request->post())) {
             $oldIDs = ArrayHelper::map($modelDetails, 'id', 'id');
             $modelDetails = Stockin::createMultiple(StockinDetail::classname(), $modelDetails);
@@ -186,6 +200,20 @@ class StockinController extends Controller
                         }
                     }
                     $model->money = $sumOrder;
+                    //upload image
+                    $image = UploadedFile::getInstance($model, 'image1');
+                    if (!is_null($image)) {
+                        $model->image1 = $image->name;
+                        $ext = end((explode(".", $image->name)));
+                        // generate a unique file name to prevent duplicate filenames
+                        $model->image1 = Yii::$app->security->generateRandomString().".{$ext}";
+                        // the path to save file, you can set an uploadPath
+                        // in Yii::$app->params (as used in example below)
+                        Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/';
+                        $path = Yii::$app->params['uploadPath'] . $model->image1;
+                        $image->saveAs($path);
+                    }
+
                     $model->save(false);
                     if($flag) {
                         $transcation->commit();

@@ -11,7 +11,10 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property string $time
  * @property string $money
+ * @property string $customer_id
+ * @property string $image1
  *
+ * @property Customer $customer
  * @property StockinDetail[] $stockinDetails
  */
 class Stockin extends \yii\db\ActiveRecord
@@ -30,6 +33,7 @@ class Stockin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['customer_id'], 'required'],
             [['time'], 'safe'],
             [['money'], 'number'],
             [['note'], 'string']
@@ -74,7 +78,13 @@ class Stockin extends \yii\db\ActiveRecord
         return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('stockin_detail', ['stockin_id' => 'id']);
     }
 
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
     public static function createMultiple($modelClass, $multipleModels = [])
     {
         $model = new $modelClass;
