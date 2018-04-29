@@ -42,7 +42,13 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find();
+        $callClass=  MyCommon::get_calling_class();
+
+        $objCall = new $callClass(null,null,null);
+        $arrayWhere=[];
+        $arrayWhere =$objCall->getWhereFilter($arrayWhere);
+        $query = Customer::find()->andFilterWhere($arrayWhere);
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

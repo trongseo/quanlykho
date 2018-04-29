@@ -43,7 +43,15 @@ class StockinSearch extends Stockin
      */
     public function search($params)
     {
-        $query = Stockin::find();
+        $callClass=  MyCommon::get_calling_class();
+
+        $objCall = new $callClass(null,null,null);
+        $arrayWhere=[];
+        $arrayWhere =$objCall->getWhereFilter($arrayWhere);
+
+
+
+        $query = Stockin::find()->andFilterWhere($arrayWhere);
         $subquery = StockinDetail::find()
             ->select('stockin_id, SUM(count) as detail_count')
             ->groupBy('stockin_id');

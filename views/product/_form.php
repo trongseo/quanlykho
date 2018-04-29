@@ -33,6 +33,7 @@ use yii\widgets\ActiveForm;
 
     ?>
 
+    <?= $form->field($model, 'username')->hiddenInput(['value'=>  Yii::$app->user->username])->label(false); ?>
     <input type="hidden" id="product-specification"   value="0" class="form-control" name="Product[specification]" aria-required="true" aria-invalid="true">
     <input type="hidden" id="product-price" class="form-control" name="Product[price]"  value="0">
 

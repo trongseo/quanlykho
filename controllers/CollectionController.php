@@ -85,6 +85,7 @@ class CollectionController extends AppController
                 date_default_timezone_set("Asia/ShangHai");
                 $model->time .= ("  ". date("H:i:s"));
             }
+            $model->username = Yii::$app->user->username;
             $model->save();
             // add the money to customer
             $customer = $model->customer;
@@ -123,7 +124,7 @@ class CollectionController extends AppController
 //            if($model->flg_thuchi==0){
 //                $model->money = - $model->money;
 //            }
-
+            $model->username = Yii::$app->user->username;
             $model->save();
             // update the money to customer
             $customer = $model->customer;
@@ -149,6 +150,7 @@ class CollectionController extends AppController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         // delete the money to customer
         $customer = $model->customer;
         $customer->unpay += $model->money;

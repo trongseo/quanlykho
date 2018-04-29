@@ -32,10 +32,14 @@ class AppController extends Controller
         exit();
         return false;
     }
-    function getWhereFilter($arRwhere){
+    function getWhereFilter($arRwhere,$tblname=""){
         if(Yii::$app->user->username=="superadmin") return $arRwhere;
-
-         $arRwhere['username']=Yii::$app->user->username;
+        if($tblname=="")
+        {
+            $arRwhere['username']=Yii::$app->user->username;
+        }else{
+            $arRwhere[$tblname.'.username']=Yii::$app->user->username;
+        }
          return $arRwhere;
 
     }

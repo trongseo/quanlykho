@@ -12,6 +12,7 @@ use Yii;
  * @property string $unit
  * @property integer $specification
  * @property string $price
+ * @property string $username
  * @property string $cost
  * @property integer $unit_id
  * @property DeliveryDetail[] $deliveryDetails
@@ -37,7 +38,7 @@ class Product extends \yii\db\ActiveRecord
             [['unit'], 'string'],
             [['specification'], 'integer'],
             [['price', 'cost'], 'number'],
-            [['name'], 'string', 'max' => 128]
+            [['name','username'], 'string', 'max' => 128]
         ];
     }
 
@@ -94,5 +95,13 @@ class Product extends \yii\db\ActiveRecord
     public function getUnitPro()
     {
         return $this->hasOne(UnitPro::className(), ['id' => 'unit_id']);
+    }
+
+    public static  function findAllforUser(){
+        if(Yii::$app->user->username=="superadmin"){
+            return  Product::find()->all();
+        }
+        return  Product::find()->andFilterWhere(["username"=> Yii::$app->user->username
+        ])->all();
     }
 }

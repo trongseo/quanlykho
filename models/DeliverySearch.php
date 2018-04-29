@@ -43,7 +43,12 @@ class DeliverySearch extends Delivery
      */
     public function search($params)
     {
-        $query = Delivery::find();
+        $callClass=  MyCommon::get_calling_class();
+        $objCall = new $callClass(null,null,null);
+        $arrayWhere=[];
+        $arrayWhere =$objCall->getWhereFilter($arrayWhere,"delivery");
+        $query = Delivery::find()->andFilterWhere($arrayWhere);
+
         $subquery = DeliveryDetail::find()
                     ->select('delivery_id, SUM(count) as detail_count')
                     ->groupBy('delivery_id');

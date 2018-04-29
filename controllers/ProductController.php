@@ -14,7 +14,7 @@ use yii\web\Response;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
-class ProductController extends Controller
+class ProductController extends AppController
 {
     public function behaviors()
     {
@@ -35,9 +35,9 @@ class ProductController extends Controller
                     ],
                 ],
             ],
-            'ghost-access'=> [
-                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
-            ],
+//            'ghost-access'=> [
+//                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+//            ],
         ];
     }
 
@@ -64,8 +64,10 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' =>$model,
         ]);
     }
 
@@ -78,7 +80,10 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->username = Yii::$app->user->username;
+           $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -97,7 +102,9 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->username = Yii::$app->user->username;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -114,7 +121,9 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model =  $this->findModel($id);
+        $this->checkPermissionModel($model);
+        $model->delete();
 
         return $this->redirect(['index']);
     }

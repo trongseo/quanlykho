@@ -42,7 +42,13 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find();
+
+        $callClass=  MyCommon::get_calling_class();
+        $objCall = new $callClass(null,null,null);
+        $arrayWhere=[];
+        $arrayWhere =$objCall->getWhereFilter($arrayWhere);
+        $query = Product::find()->andFilterWhere($arrayWhere);
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query, 'pagination' => [

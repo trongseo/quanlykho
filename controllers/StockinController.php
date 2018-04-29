@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
 /**
  * StockinController implements the CRUD actions for Stockin model.
  */
-class StockinController extends Controller
+class StockinController extends AppController
 {
     public function behaviors()
     {
@@ -67,6 +67,7 @@ class StockinController extends Controller
     {
         $searchModel = new StockinDetailSearch();
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         $searchModel->stockin_id = $id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('view', [
@@ -124,6 +125,7 @@ class StockinController extends Controller
                         $path = Yii::$app->params['uploadPath'] . $model->image1;
                         $image->saveAs($path);
                     }
+                    $model->username = Yii::$app->user->username;
                     if($flag = $model->save(false)) {
                         foreach ($modelDetails as $modelDetail) {
                             $modelDetail->stockin_id = $model->id;
@@ -156,6 +158,9 @@ class StockinController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
+
+
         $modelDetails = $model->stockinDetails;
         $model->image1 = '/uploads/'. $model->image1;
         if ($model->load(Yii::$app->request->post())) {
@@ -176,7 +181,7 @@ class StockinController extends Controller
 
             // set the time
             if ($model->time) {
-                date_default_timezone_set("Asia/ShangHai");
+                $this->date_default_timezone_set();
                 $model->time .= ("  ". date("H:i:s"));
             }
             $sumOrder = 0;
@@ -186,7 +191,8 @@ class StockinController extends Controller
 
             if($valid) {
                 $transcation = Yii::$app->db->beginTransaction();
-                try{
+                try{ $model->username = Yii::$app->user->username;
+
                     if($flag = $model->save(false)) {
                         if(!empty($deleteIDS)){
                             StockinDetail::deleteAll(['id' => $deleteIDS]);
@@ -238,6 +244,8 @@ class StockinController extends Controller
      */
     public function actionDelete($id)
     {
+        $model =$this->findModel($id);
+        $this->checkPermissionModel($model);
         StockinDetail::deleteAll(['stockin_id' => $id]);
         $this->findModel($id)->delete();
 

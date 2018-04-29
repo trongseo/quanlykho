@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 /**
  * DeliveryController implements the CRUD actions for Delivery model.
  */
-class DeliveryController extends Controller
+class DeliveryController extends AppController
 {
     public function behaviors()
     {
@@ -65,6 +65,7 @@ class DeliveryController extends Controller
     {
         $searchModel = new DeliveryDetailSearch();
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         $searchModel->delivery_id = $id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('view', [
@@ -109,6 +110,7 @@ class DeliveryController extends Controller
             if ($valid) {
                 $transcation = Yii::$app->db->beginTransaction();
                 try{
+                    $model->username = Yii::$app->user->username;
                     if($flag = $model->save(false)) {
                         foreach ($modelDetails as $modelDetail) {
                             $modelDetail->delivery_id = $model->id;
@@ -158,6 +160,7 @@ class DeliveryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         $oldMoney = $model->money;
         $modelDetails = $model->deliveryDetails;
 
@@ -189,6 +192,7 @@ class DeliveryController extends Controller
             if($valid) {
                 $transcation = Yii::$app->db->beginTransaction();
                 try{
+                    $model->username = Yii::$app->user->username;
                     if($flag = $model->save(false)) {
                         if(!empty($deleteIDS)) {
                             DeliveryDetail::deleteAll(['id' => $deleteIDS]);
@@ -241,8 +245,10 @@ class DeliveryController extends Controller
      */
     public function actionDelete($id)
     {
-        DeliveryDetail::deleteAll(['delivery_Id' => $id]);
         $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
+        DeliveryDetail::deleteAll(['delivery_Id' => $id]);
+
 
         //delete the money to customer
         $customer = $model->customer;

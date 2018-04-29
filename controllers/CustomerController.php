@@ -13,7 +13,7 @@ use yii\filters\AccessControl;
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
-class CustomerController extends Controller
+class CustomerController extends AppController
 {
     public function behaviors()
     {
@@ -59,8 +59,10 @@ class CustomerController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' =>$model,
         ]);
     }
 
@@ -109,6 +111,8 @@ class CustomerController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+        $this->checkPermissionModel($model);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property string $money
  * @property string $customer_id
  * @property string $image1
- *
+ * @property string $username
  * @property Customer $customer
  * @property StockinDetail[] $stockinDetails
  */
@@ -36,7 +36,7 @@ class Stockin extends \yii\db\ActiveRecord
             [['customer_id'], 'required'],
             [['time'], 'safe'],
             [['money'], 'number'],
-            [['note'], 'string']
+            [['note','username'], 'string']
         ];
     }
 

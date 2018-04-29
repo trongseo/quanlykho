@@ -14,7 +14,7 @@ use Yii;
  * @property string $unpay
  * @property string $payed
  * @property string $sum
- *
+ * @property string $username
  * @property Collection[] $collections
  * @property Delivery[] $deliveries
  */
@@ -37,7 +37,7 @@ class Customer extends \yii\db\ActiveRecord
             [['name', 'info'], 'required'],
             [['time', 'unpay', 'payed', 'sum'], 'safe'],
             [['unpay', 'payed', 'sum'], 'number'],
-            [['name', 'info'], 'string', 'max' => 128]
+            [['name', 'info','username'], 'string', 'max' => 128]
         ];
     }
 
@@ -71,5 +71,12 @@ class Customer extends \yii\db\ActiveRecord
     public function getDeliveries()
     {
         return $this->hasMany(Delivery::className(), ['customer_id' => 'id']);
+    }
+    public static  function findAllforUser(){
+        if(Yii::$app->user->username=="superadmin"){
+            return  Customer::find()->all();
+        }
+       return  Customer::find()->andFilterWhere(["username"=> Yii::$app->user->username
+        ])->all();
     }
 }

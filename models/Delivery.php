@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string $money
  * @property string $profit
  * @property string $state
- *
+ * @property string $username
  * @property Customer $customer
  * @property DeliveryDetail[] $deliveryDetails
  */
@@ -38,7 +38,7 @@ class Delivery extends \yii\db\ActiveRecord
             [['customer_id'], 'integer'],
             [['time'], 'safe'],
             [['money', 'profit'], 'number'],
-            [['state','note'], 'string']
+            [['state','note','username'], 'string']
         ];
     }
 

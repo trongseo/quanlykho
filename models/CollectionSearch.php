@@ -59,7 +59,7 @@ class CollectionSearch extends Collection
        $callClass=  $this->get_calling_class();
        $objCall = new $callClass(null,null,null);
         $arrayWhere=[];
-        $arrayWhere =$objCall->getWhereFilter($arrayWhere);
+        $arrayWhere =$objCall->getWhereFilter($arrayWhere,"collection");
       //  var_dump("<br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/><br/>,<br/>,<br/>,<br/>,<br/>,",$arrayWhere) ;
         $query = Collection::find()->andFilterWhere($arrayWhere);
        // $params['username'] = Yii::$app->user->username;

@@ -116,8 +116,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                     ]
                 ]); ?>
             </div>
-
+            <?= $form->field($model, 'username')->hiddenInput(['value'=>  Yii::$app->user->username])->label(false); ?>
             <div class="col-sm-6">
+
                 <?= $form->field($model, 'note')->textInput([
                     'type' => "string",
                 ]) ?>
@@ -126,7 +127,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
             <div class="col-sm-6">
                 <?php
                 echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'name'),
+                    'data' => ArrayHelper::map(Customer::findAllforUser(), 'id', 'name'),
                     'language' => 'vn',
                     'options' => ['placeholder' => 'Tìm chọn khách hàng.'],
                     'pluginOptions' => [
@@ -180,7 +181,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
 
                                         <?php
                                         echo $form->field($modelDetail, "[{$i}]product_id")->widget(Select2::classname(), [
-                                            'data' => ArrayHelper::map(Product::find()->all(), 'id', 'name'),
+                                            'data' => ArrayHelper::map(Product::findAllforUser(), 'id', 'name'),
                                             'language' => 'vn',
                                             'options' => ['placeholder' => 'Chọn sản phẩm'],
                                             'pluginOptions' => [
