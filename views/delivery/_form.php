@@ -25,6 +25,35 @@ function updateMoney(){
     $("#delivery-money").val(money.toFixed(2));
 }
 
+var soluongtons;
+$(document).ready(function(){
+    $.post("index.php?r=avg/soluongtons",function (data) {
+        soluongtons = JSON.parse(data);
+    });
+});
+function getSoluongton(productid,objSelect) {
+    var toReturn;
+   
+    for(var i = 0;i<soluongtons.length;i++){
+        var v = soluongtons[i];
+         if(v.productid == productid){
+          
+          var vitri =  $(objSelect).attr('id').split('-')[1];
+          $(objSelect).parent().parent().parent().parent().find('.0soluongton').html("Tồn:<b>" +v.quantity_ton +"</b>");
+         // $('.'+vitri+'soluongton').html( "Tồn:<b>" +v.quantity_ton +"</b>");
+            return  v.quantity_ton;
+        }
+    }
+     // $('.'+vitri+'soluongton').html( "");
+      $(objSelect).parent().parent().parent().parent().find('.0soluongton').html("");
+    // $.each(soluongtons, function(i,v){
+    //     if(v.productid == productid){
+    //         return  v.quantity_ton;
+    //     }
+    // });
+    return 0;
+}
+
 var prices;
 $(document).ready(function(){
     $.post("index.php?r=product/prices",function (data) {
@@ -33,15 +62,17 @@ $(document).ready(function(){
 });
 
 function getPrice(id) {
-    var toReturn;
+    var toReturn=0;
     $.each(prices, function(i,v){
+          
         if(v.id == id){
-            if(v.unit == "B") {
-                toReturn = v.price;
-            } else {
-                toReturn = (v.price * v.specification).toFixed(2);
-            }
-            return false;
+             toReturn = v.price;
+            // if(v.unit == "B") {
+            //     toReturn = v.price;
+            // } else {
+            //     toReturn = (v.price * v.specification).toFixed(2);
+            // }
+            // return false;
         }
     });
     return toReturn;
@@ -54,9 +85,14 @@ $("body").on("change",".detail-product-id", function handleProduct(){
     count = count_item.val()
     console.log("count:"+count);
     var product_id = $(this).val();
+  
     if(product_id !== ""){
+        var soluongton =  getSoluongton(product_id,this);
+        console.log('soluongton:'+soluongton);
         price = getPrice(product_id);
         price_item.val(price);
+        
+          $(this).parent().parent().parent().parent().find('.detail-price').val(price);
         if(count !="") {
             console.log("total:"+ price*count);
              total_item.html((price * count).toFixed(2));
@@ -88,6 +124,8 @@ $("body").on("change", ".detail-price", function() {
     updateMoney();
 });
 
+ 
+ 
 JS;
 
 $this->registerJs($js, $this::POS_END);
@@ -137,7 +175,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                 ?>
             </div>
 
-            <?= $form->field($model, 'money')->textInput() ?>
+            <?= $form->field($model, 'money')->textInput(['readonly'=>'readonly'])->label("Tổng tiền:") ?>
 
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
@@ -177,13 +215,16 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                                 }
                                 ?>
                                 <div class="row">
+                                    <div class="col-sm-12"><span class="<?=$i ?>soluongton">  </span> </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-6">
 
                                         <?php
                                         echo $form->field($modelDetail, "[{$i}]product_id")->widget(Select2::classname(), [
                                             'data' => ArrayHelper::map(Product::findAllforUser(), 'id', 'name'),
                                             'language' => 'vn',
-                                            'options' => ['placeholder' => 'Chọn sản phẩm'],
+                                            'options' => ['class'=>'detail-product-id','vitri'=>$i,'placeholder' => 'Chọn sản phẩm'],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
@@ -202,7 +243,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                                             'maxlength' => true,
                                             'class' => 'form-control detail-price',
                                         ]) ?>
+
                                     </div>
+
                                     <div class="col-sm-6">
                                         <label class="control-label"><?= Yii::t('app', 'Total') . ' : ' ?></label>
                                         <div class="clearfix"></div>

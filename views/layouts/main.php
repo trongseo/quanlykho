@@ -78,12 +78,12 @@ AppAsset::register($this);
 
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
-            ['label' => Yii::t('app', 'Account'), 'url' => ['/account/index']],
+
            // =user-management%2Fuser%2Findex
             Yii::$app->user->username != "superadmin" ?"": ['label' => Yii::t('app', 'Usermanagement'), 'url' => ['/user-management/user/index']],
+            Yii::$app->user->username != "superadmin" ?"": ['label' => Yii::t('app', 'Loai chi phi'), 'url' => ['/account/index']],
 
 
-            ['label' => "Đơn vị tính", 'url' => ['/unit/index']],
             ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/user-management/auth/login']] :
@@ -93,8 +93,8 @@ AppAsset::register($this);
                     'items' => [
 
                         ['label' =>  Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')', 'url' => ['/user-management/auth/logout']],
-                        ['label'=>'Change own password', 'url'=>['/user-management/auth/change-own-password']],
-                        ['label' => 'Something else here', 'url' => '#'],
+                        ['label'=>'Đổi mật khẩu', 'url'=>['/user-management/auth/change-own-password']],
+
                     ],
                 ],
 

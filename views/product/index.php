@@ -55,7 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'value' => 'unitPro.unit_name',
 
     ],
+    [  'attribute' => 'price',
+        'value' => function ($model, $key, $index, $widget) {
+            return number_format( $model->price);
+        }
 
+    ],
 
 
 ],

@@ -150,4 +150,6 @@ class ProductController extends AppController
         Yii::$app->response->format = Response::FORMAT_JSON;
         return json_encode($product);
     }
+
+
 }

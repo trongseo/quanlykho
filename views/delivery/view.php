@@ -33,8 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'customer.name',
             'time',
-            'money',
-            'profit',
+
+            [
+                'label' => Yii::t('app', 'Tiền'),
+                //'class' => 'kartik\grid\DataColumn',
+                'format' => ['decimal',0],
+                'value' => function($model) {
+                    return  ($model->money) ;
+                }
+            ],
 
         ],
     ]) ?>
@@ -55,35 +62,41 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'product.name',
             ],
             'count',
+
             [
-                'attribute' => 'price',
-                'pageSummary' => Yii::t('app','Total'),
+
+                //'class' => 'kartik\grid\DataColumn',
+                'format' => ['decimal', 0],
+                'value' => function($model) {
+                    return  $model->price;
+                },
+
             ],
             [
                 'label' => Yii::t('app', 'Summary'),
                 //'class' => 'kartik\grid\DataColumn',
-                'format' => ['decimal', 2],
+                'format' => ['decimal', 0],
                 'value' => function($model) {
                     return $model->count * $model->price;
                 },
                 'pageSummary' => true,
             ],
-            [
-                'label' => Yii::t('app', 'Profit'),
-                //'class' => 'yii\grid\DataColumn',
-                'format' => ['decimal', 2],
-                'value' => function($model, $key, $index, $widget) {
-                    $dongia =  $model->product->price;
-                    $profit = $model->count * ($model->price - $dongia );
-                    return $profit;
-
-//                    return $model->count * ($model->price -
-//                        ($model->product->unit =='B' ?
-//                            $model->product->cost:
-//                            $model->product->cost * $model->product->specification));
-                },
-                'pageSummary' => true,
-            ],
+//            [
+//                'label' => Yii::t('app', 'Profit'),
+//                //'class' => 'yii\grid\DataColumn',
+//                'format' => ['decimal', 2],
+//                'value' => function($model, $key, $index, $widget) {
+//                    $dongia =  $model->product->price;
+//                    $profit = $model->count * ($model->price - $dongia );
+//                    return $profit;
+//
+////                    return $model->count * ($model->price -
+////                        ($model->product->unit =='B' ?
+////                            $model->product->cost:
+////                            $model->product->cost * $model->product->specification));
+//                },
+//                'pageSummary' => true,
+//            ],
         ],
     ]) ?>
 

@@ -74,7 +74,7 @@ $this->registerJs($js, $this::POS_END);
 
 
         <div class="product-index">
-           	Tên sản phẩm	Tổng số tiền xuất	Tổng số tiền lời
+
             <?php
             if(isset($dataProvider))
             echo GridView::widget([
@@ -96,7 +96,7 @@ $this->registerJs($js, $this::POS_END);
                         }
                     ],
                     [
-                        'label' => 'Tổng số tiền xuất',
+                        'label' => 'Tổng số tiền nhập',
                         'value' => function ($arrData, $key, $index, $widget) {
                             return number_format(  $arrData['price_nhap']);
                         }
