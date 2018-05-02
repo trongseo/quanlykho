@@ -78,6 +78,19 @@ function getPrice(id) {
     return toReturn;
 }
 
+$("body").on("keyup", ".detail-price", function() {
+    
+  //  debugger;
+    var count_item =$(this).parent().parent().prev().prev().children().find(".detail-count") ;    //$(this).parent().parent().prev().children().children(".detail-count");
+    var total_item = $(this).parent().parent().next().children("em");
+    total_item.html(($(this).val() * count_item.val()).toFixed(0));
+    
+     var money  = addCommas($(this).val());
+    $(this).parent().parent().find('.help-block').html(money);
+
+    updateMoney();
+});
+
 $("body").on("change",".detail-product-id", function handleProduct(){
     var count_item = $(this).parent().parent().next().children().children(".detail-count");
     var price_item = count_item.parent().parent().next().children().children(".detail-price");

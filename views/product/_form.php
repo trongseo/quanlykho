@@ -9,7 +9,25 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 /* @var $form yii\widgets\ActiveForm */
+
+$js = <<<JS
+$("body").on("keyup", ".form-control", function() {
+    
+    debugger;
+    var count_item =$(this).parent().parent().prev().prev().children().find(".detail-count") ;    //$(this).parent().parent().prev().children().children(".detail-count");
+    var total_item = $(this).parent().parent().next().children("em");
+    total_item.html(($(this).val() * count_item.val()).toFixed(0));
+    
+     var money  = addCommas($(this).val());
+    $(this).parent().parent().find('.help-block').html(money);
+
+    updateMoney();
+});
+JS;
+
 ?>
+
+
 
 <div class="product-form">
 
@@ -37,7 +55,7 @@ use yii\widgets\ActiveForm;
     <input type="hidden" id="product-specification"   value="0" class="form-control" name="Product[specification]" aria-required="true" aria-invalid="true">
 
 
-    <?= $form->field($model, 'price')->textInput(['type' => 'number']) ?>
+    <?= $form->field($model, 'price')->textInput(['type' => 'number','class'=>'product-price form-control']) ?>
 
     <input type="hidden" id="product-cost" class="form-control" name="Product[cost]" value="0" >
 <!--    --><?php // $form->field($model, 'cost')->textInput(['maxlength' => true]) ?>
