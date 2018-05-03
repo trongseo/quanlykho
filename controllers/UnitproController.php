@@ -3,25 +3,28 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
+use app\models\Unitpro;
+use app\models\UnitproSearch;
 use yii\web\Controller;
-/**
- * Created by PhpStorm.
- * User: sba010
- * Date: 5/3/2018
- * Time: 4:43 PM
- */
-class UnitproController extends Controller
-{
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
+/**
+ * UnitproController implements the CRUD actions for Unitpro model.
+ */
+class UnitproController extends AppController
+{
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
             'access' => [
@@ -29,7 +32,7 @@ class UnitproController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'tien', 'soluongtons', 'view', 'giatb', 'create', 'update', 'delete', 'prices', 'monthavg'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -37,15 +40,96 @@ class UnitproController extends Controller
         ];
     }
 
+    /**
+     * Lists all Unitpro models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-        $dataunit = Yii::$app->db->createCommand('SELECT * FROM unit_pro')
-            ->queryAll();
+        $searchModel = new UnitproSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
-            'datas' => $dataunit
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * Displays a single Unitpro model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Unitpro model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Unitpro();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing Unitpro model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing Unitpro model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the Unitpro model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Unitpro the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Unitpro::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }
-
-
-?>

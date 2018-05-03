@@ -53,6 +53,12 @@ function thuhoachi($flg_thuc){
                 'label' => 'Tiền',
                 'value' =>number_format( $model->money),
             ],
+
+            [
+                'label' => 'Hình',
+                'value'=>$model->image1,
+                'format' => ['image',[]],
+            ],
             'note',
         ],
     ]) ?>

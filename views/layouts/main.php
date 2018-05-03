@@ -78,9 +78,10 @@ AppAsset::register($this);
 
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
-            ['label' => Yii::t('app', 'Unit Pro'), 'url' => ['/unitpro/index']],
+
 
             // =user-management%2Fuser%2Findex
+            Yii::$app->user->username != "superadmin" ? "" :  ['label' => Yii::t('app', 'Unit Pro'), 'url' => ['/unitpro/index']],
             Yii::$app->user->username != "superadmin" ? "" : ['label' => Yii::t('app', 'Usermanagement'), 'url' => ['/user-management/user/index']],
             Yii::$app->user->username != "superadmin" ? "" : ['label' => Yii::t('app', 'Loai chi phi'), 'url' => ['/account/index']],
 

@@ -10,6 +10,7 @@ use yii\web\JqueryAsset;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * CollectionController implements the CRUD actions for Collection model.
@@ -64,8 +65,10 @@ class CollectionController extends AppController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->image1 = '/uploads/'. $model->image1;
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -86,6 +89,19 @@ class CollectionController extends AppController
                 $model->time .= ("  ". date("H:i:s"));
             }
             $model->username = Yii::$app->user->username;
+            //upload image
+            $image = UploadedFile::getInstance($model, 'image1');
+            if (!is_null($image)) {
+                $model->image1 = $image->name;
+                $ext = end((explode(".", $image->name)));
+                // generate a unique file name to prevent duplicate filenames
+                $model->image1 = Yii::$app->security->generateRandomString().".{$ext}";
+                // the path to save file, you can set an uploadPath
+                // in Yii::$app->params (as used in example below)
+                Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/';
+                $path = Yii::$app->params['uploadPath'] . $model->image1;
+                $image->saveAs($path);
+            }
             $model->save();
             // add the money to customer
             $customer = $model->customer;
@@ -114,7 +130,7 @@ class CollectionController extends AppController
 
         $this->checkPermissionModel($model);
         $oldMoney = $model->money;
-
+        $model->image1 = '/uploads/'. $model->image1;
         if ($model->load(Yii::$app->request->post())) {
             // set the time
             if ($model->time) {
@@ -125,6 +141,19 @@ class CollectionController extends AppController
 //                $model->money = - $model->money;
 //            }
             $model->username = Yii::$app->user->username;
+            //upload image
+            $image = UploadedFile::getInstance($model, 'image1');
+            if (!is_null($image)) {
+                $model->image1 = $image->name;
+                $ext = end((explode(".", $image->name)));
+                // generate a unique file name to prevent duplicate filenames
+                $model->image1 = Yii::$app->security->generateRandomString().".{$ext}";
+                // the path to save file, you can set an uploadPath
+                // in Yii::$app->params (as used in example below)
+                Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/';
+                $path = Yii::$app->params['uploadPath'] . $model->image1;
+                $image->saveAs($path);
+            }
             $model->save();
             // update the money to customer
             $customer = $model->customer;

@@ -1,5 +1,6 @@
 <?php
 
+use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
@@ -48,7 +49,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js?ver=3',['depend
 
     <?= $form->field($model, 'username')->hiddenInput(['value'=>  Yii::$app->user->username])->label(false); ?>
     <?= $form->field($model, 'money')->textInput(['class'=>'number_format form-control','type'=>'number','maxlength' => true])->label('Số tiền') ?>
+<?php
+echo  $form->field($model, 'image1')->widget(FileInput::classname(), [
+    'options' => ['accept' => 'image/*'],
+    'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],
+        'showUpload' => false,
+        'initialPreview'=> [
+            '<img src="'.$model->image1.'" class="file-preview-image">',
+        ],
+    ],
+])->label("Hình chứng từ");
 
+?>
 
     <?= $form->field($model, 'customer_id')->dropDownList(
         ArrayHelper::map(Customer::findAllforUser(), 'id', 'name'),
