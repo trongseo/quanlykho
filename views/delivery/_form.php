@@ -80,7 +80,7 @@ function getPrice(id) {
 
 $("body").on("keyup", ".detail-price", function() {
     
-  //  debugger;
+    debugger;
     var count_item =$(this).parent().parent().prev().prev().children().find(".detail-count") ;    //$(this).parent().parent().prev().children().children(".detail-count");
     var total_item = $(this).parent().parent().next().children("em");
     total_item.html(($(this).val() * count_item.val()).toFixed(0));

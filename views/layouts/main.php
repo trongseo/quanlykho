@@ -35,41 +35,41 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-//    echo GhostMenu::widget([
-//        'options' => ['class' => 'navbar-nav navbar-right'],
-//        'encodeLabels'=>false,
-//        'activateParents'=>true,
-//        'items' => [
-//            [
-//                'label' => 'Backend routes',
-//                'items'=>UserManagementModule::menuItems()
-//            ],
-//            [
-//                'label' => 'Frontend routes',
-//                'items'=>[
-//                    ['label'=>'Login', 'url'=>['/user-management/auth/login']],
-//                    ['label'=>'Logout', 'url'=>['/user-management/auth/logout']],
-//                    ['label'=>'Registration', 'url'=>['/user-management/auth/registration']],
-//                    ['label'=>'Change own password', 'url'=>['/user-management/auth/change-own-password']],
-//                    ['label'=>'Password recovery', 'url'=>['/user-management/auth/password-recovery']],
-//                    ['label'=>'E-mail confirmation', 'url'=>['/user-management/auth/confirm-email']],
-//                ],
-//            ],
-//        ],]);
+    //    echo GhostMenu::widget([
+    //        'options' => ['class' => 'navbar-nav navbar-right'],
+    //        'encodeLabels'=>false,
+    //        'activateParents'=>true,
+    //        'items' => [
+    //            [
+    //                'label' => 'Backend routes',
+    //                'items'=>UserManagementModule::menuItems()
+    //            ],
+    //            [
+    //                'label' => 'Frontend routes',
+    //                'items'=>[
+    //                    ['label'=>'Login', 'url'=>['/user-management/auth/login']],
+    //                    ['label'=>'Logout', 'url'=>['/user-management/auth/logout']],
+    //                    ['label'=>'Registration', 'url'=>['/user-management/auth/registration']],
+    //                    ['label'=>'Change own password', 'url'=>['/user-management/auth/change-own-password']],
+    //                    ['label'=>'Password recovery', 'url'=>['/user-management/auth/password-recovery']],
+    //                    ['label'=>'E-mail confirmation', 'url'=>['/user-management/auth/confirm-email']],
+    //                ],
+    //            ],
+    //        ],]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
 
-            ['label' => Yii::t('app','Delivery'), 'url' => ['/delivery/index']],
+            ['label' => Yii::t('app', 'Delivery'), 'url' => ['/delivery/index']],
             ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
-            ['label' => Yii::t('app','Collection'), 'url' => ['/collection/index']],
+            ['label' => Yii::t('app', 'Collection'), 'url' => ['/collection/index']],
             ['label' => 'Báo cáo',
                 'url' => ['#'],
                 'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
                 'items' => [
-                    ['label' => Yii::t('app','Số lượng'), 'url' => ['/avg/index']],
-                    ['label' => Yii::t('app','Tiền'), 'url' => ['/avg/tien']],
-                    ['label' => Yii::t('app','Giá trung bình'), 'url' => ['/avg/giatb']],
+                    ['label' => Yii::t('app', 'Số lượng'), 'url' => ['/avg/index']],
+                    ['label' => Yii::t('app', 'Tiền'), 'url' => ['/avg/tien']],
+                    ['label' => Yii::t('app', 'Giá trung bình'), 'url' => ['/avg/giatb']],
                     ['label' => 'Something else here', 'url' => '#'],
                 ],
             ],
@@ -78,32 +78,33 @@ AppAsset::register($this);
 
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
+            ['label' => Yii::t('app', 'Unit Pro'), 'url' => ['/unitpro/index']],
 
-           // =user-management%2Fuser%2Findex
-            Yii::$app->user->username != "superadmin" ?"": ['label' => Yii::t('app', 'Usermanagement'), 'url' => ['/user-management/user/index']],
-            Yii::$app->user->username != "superadmin" ?"": ['label' => Yii::t('app', 'Loai chi phi'), 'url' => ['/account/index']],
+            // =user-management%2Fuser%2Findex
+            Yii::$app->user->username != "superadmin" ? "" : ['label' => Yii::t('app', 'Usermanagement'), 'url' => ['/user-management/user/index']],
+            Yii::$app->user->username != "superadmin" ? "" : ['label' => Yii::t('app', 'Loai chi phi'), 'url' => ['/account/index']],
 
 
-            ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
+            ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
             Yii::$app->user->isGuest ?
                 ['label' => Yii::t('app', 'Login'), 'url' => ['/user-management/auth/login']] :
-                ['label' =>  Yii::$app->user->identity->username,
+                ['label' => Yii::$app->user->identity->username,
                     'url' => ['#'],
                     'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
                     'items' => [
 
-                        ['label' =>  Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')', 'url' => ['/user-management/auth/logout']],
-                        ['label'=>'Đổi mật khẩu', 'url'=>['/user-management/auth/change-own-password']],
+                        ['label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')', 'url' => ['/user-management/auth/logout']],
+                        ['label' => 'Đổi mật khẩu', 'url' => ['/user-management/auth/change-own-password']],
 
                     ],
                 ],
 
 
-        ],'activateParents' => true,
+        ], 'activateParents' => true,
     ]);
     NavBar::end();
     ?>
-<br/>
+    <br/>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
