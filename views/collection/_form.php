@@ -77,6 +77,8 @@ echo  $form->field($model, 'image1')->widget(FileInput::classname(), [
 
 </div>
 
-<script>
-
-</script>
+<style>
+    .file-preview-image {
+        max-width: 150px;
+    }
+</style>
