@@ -34,10 +34,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'specification', 'price', 'cost','unit_id'], 'required'],
-            [['unit'], 'string'],
-            [['specification'], 'integer'],
-            [['price', 'cost'], 'number'],
+            [['price'], 'number'],
             [['name','username'], 'string', 'max' => 128]
         ];
     }

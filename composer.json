@@ -26,7 +26,10 @@
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-widget-select2": "^2.1",
         "webvimark/module-user-management": "*",
-        "kartik-v/yii2-widget-fileinput": "*"
+        "kartik-v/yii2-widget-fileinput": "*",
+        "arogachev/yii2-excel": "^0.1.1",
+        "moonlandsoft/yii2-phpexcel": "*",
+        "kartik-v/yii2-export": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

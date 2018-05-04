@@ -81,6 +81,7 @@ $config = [
                 };
             },
         ],
+
     ],
     'language' => 'vn-VN',
 ];

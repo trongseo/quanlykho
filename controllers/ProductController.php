@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Category;
+
+use app\models\UploadForm;
+use moonland\phpexcel\Excel;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
@@ -10,6 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -30,7 +35,7 @@ class ProductController extends AppController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'prices'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'prices', 'import'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -40,7 +45,62 @@ class ProductController extends AppController
 //            ],
         ];
     }
+    public function actionImport(){
+        $modelImport = new UploadForm();
+        $pro = new Product();
+        $fileName="";
+        $err = "";
+        if(Yii::$app->request->post()){
+            $modelImport->excelFile = UploadedFile::getInstance($modelImport, 'excelFile');
+            if ($modelImport->upload()) {
+                $fileName = $modelImport->excelPath;
+            }
 
+            $data = Excel::import($fileName, [
+                'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
+                'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
+                'getOnlySheet' => 'Sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
+            ]);
+            $transaction = Yii::$app->db->beginTransaction();
+            $i=1;
+            try {
+
+                foreach ($data as $row){
+                    $i ++;
+                    if( isset($row['name'])){
+                        $pro = new Product();
+                        $pro->username= Yii::$app->user->username;
+                        $pro->name= $row['name'];
+                        $pro->price= $row['price'];
+                        $pro->unit_id= $row['unit_id'];
+                        if( $pro->validate()){
+                            $pro->save();
+                        }else{
+                            $sumEr ="";
+                            foreach ($pro->errors as $er){
+                                $sumEr .= $er[0];
+                            }
+                            $err .= '<br/> <p>Lỗi dòng: '.$i.'(<b>'. $pro->name .')</b> '.$sumEr.'</p> <br/><br/><br/>';
+                        }
+
+                    }
+
+                }
+                if($err==""){
+                    $transaction->commit();
+                }else{
+                    $transaction->rollBack();
+                }
+
+            } catch (Exception $e) {
+                $transaction->rollBack();
+            }
+        }
+
+        return $this->render('import',[
+            'model' => $modelImport,'pro'=>$pro,'err' => $err
+        ]);
+    }
     /**
      * Lists all Product models.
      * @return mixed

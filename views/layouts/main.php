@@ -70,13 +70,24 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Số lượng'), 'url' => ['/avg/index']],
                     ['label' => Yii::t('app', 'Tiền'), 'url' => ['/avg/tien']],
                     ['label' => Yii::t('app', 'Giá trung bình'), 'url' => ['/avg/giatb']],
-                    ['label' => 'Something else here', 'url' => '#'],
+//                    ['label' => 'Something else here', 'url' => '#'],
                 ],
             ],
 //        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
 
 
             ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
+            ['label' => 'Sản phẩm',
+                'url' => ['#'],
+                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'items' => [
+                    ['label' => Yii::t('app', 'QL sản phẩm'), 'url' => ['/product/index']],
+                    ['label' => Yii::t('app', 'Thêm sản phẩm'), 'url' => ['/product/create']],
+                    ['label' => Yii::t('app', 'Thêm bằng excel'), 'url' => ['/product/import']],
+
+                ],
+            ],
+
             ['label' => Yii::t('app', 'Customer'), 'url' => ['/customer/index']],
 
 

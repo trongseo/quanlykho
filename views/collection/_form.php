@@ -1,6 +1,7 @@
 <?php
 
 use kartik\file\FileInput;
+use uranum\excel\ExcelExchanger;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
@@ -76,6 +77,7 @@ echo  $form->field($model, 'image1')->widget(FileInput::classname(), [
     <?php ActiveForm::end(); ?>
 
 </div>
+
 
 <style>
     .file-preview-image {

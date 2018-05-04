@@ -1,5 +1,6 @@
 <?php
 
+
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
@@ -12,6 +13,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url'
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="collection-index">
+
+
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
