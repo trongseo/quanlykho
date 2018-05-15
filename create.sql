@@ -1,4 +1,4 @@
--- customer Table sssss
+-- customer Table sssss 333
 CREATE TABLE customer(
     id INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name VARCHAR(128) NOT NULL,
