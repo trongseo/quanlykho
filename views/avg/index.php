@@ -87,11 +87,12 @@ $this->registerJs($js, $this::POS_END);
                                 <th data-col-seq="0">ID Sản Phẩm</th>
                                 <th data-col-seq="1">Tên sản phẩm</th>
                                 <th data-col-seq="2">Tổng số lượng nhập</th>
-
+                                <th data-col-seq="2">Giá TB</th>
                                 <th data-col-seq="3">Tổng số lượng xuất </th>
                                 <th data-col-seq="4">Tồn trước kì</th>
                                 <th data-col-seq="4">Tồn trong kì</th>
                                 <th data-col-seq="4">Tồn cuối kì</th>
+                                <th data-col-seq="4">Tổng tồn</th>
                             </tr>
 
                             </thead>
@@ -110,6 +111,10 @@ $this->registerJs($js, $this::POS_END);
                                     <td style="text-align: left"
                                         data-col-seq="2"><?php echo($myitem['quantity_nhap']); ?>
                                     </td>
+                                    <td style="text-align: left"
+                                        data-col-seq="2"><?php echo($myitem['price_tb']); ?>
+                                    </td>
+
                                     <td style="text-align: left" data-col-seq="3">
 
                                         <?php echo($myitem['quantity_xuat']); ?>
@@ -125,6 +130,9 @@ $this->registerJs($js, $this::POS_END);
                                     <td style="text-align: left" data-col-seq="5">
 
                                         <?php echo($myitem['ton_cuoiki']+$myitem['quantity_ton']); ?>
+                                    </td>
+                                    <td style="text-align: left"
+                                        data-col-seq="2"><?php echo(number_format( $myitem['price_tb']*($myitem['ton_cuoiki']+$myitem['quantity_ton']) )); ?>
                                     </td>
                                 </tr>
                                 <?php

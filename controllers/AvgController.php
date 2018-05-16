@@ -55,7 +55,7 @@ class AvgController extends Controller
 
 
             //toncuoiki
-            $myQuery="SELECT   IFNULL(tbl_nhapthang.quantity , 0) AS quantity_nhap,  IFNULL(tbl_xuatthang.quantity , 0) AS quantity_xuat , 
+            $myQuery="SELECT GTB.price_tb,  IFNULL(tbl_nhapthang.quantity , 0) AS quantity_nhap,  IFNULL(tbl_xuatthang.quantity , 0) AS quantity_xuat , 
       IFNULL( tbl_nhapthang.quantity , 0) -  IFNULL (tbl_xuatthang.quantity , 0)   AS quantity_ton, IFNULL( subpro.quantity_ton , 0) AS ton_cuoiki,tbl_nhapthang.productname ,tbl_nhapthang.productid FROM (  SELECT 
                        
 SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price    ,                   
@@ -111,7 +111,16 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`coun
          ON  tbl_nhapthang.productid =  tbl_xuatthang.productid  ) AS subpro
          ) ON tbl_xuatthang.productid =subpro.productid
          
-         
+          LEFT JOIN  (  
+SELECT 
+                  stockin_detail.product_id AS productid ,     
+SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price_tb    
+                        FROM stockin_detail
+                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+                       WHERE  stockin.username=:username AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
+                        GROUP BY stockin_detail.`product_id`,product.`name`
+                        ) AS GTB ON  GTB.productid  = tbl_xuatthang.productid 
          ";
 
             $commanRun = Yii::$app->db->createCommand($myQuery);
@@ -122,6 +131,7 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`coun
             $commanRun->bindValue(':username',  Yii::$app->user->username);
            // DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >='2018-04-24' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <='2018-04-25'
             $giatrungbinh= $commanRun->queryAll();
+            echo("<br/><br/><br/><br/><br/><br/><br/><br/><br/>"."<br/>".$commanRun->rawSql);
 
 //            foreach ($giatrungbinh as $myitem) {
 //                $productid = $myitem['productid'];
@@ -141,35 +151,10 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)/SUM( delivery_detail.`coun
     }
 
     public function getSqlDataProviderTien($arPara){
-    $myQuery="   SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat , 
-       tbl_xuatthang.price- tbl_nhapthang.price  AS price_loi,tbl_nhapthang.productname ,tbl_nhapthang.productid FROM (  SELECT 
-                       
-SUM( stockin_detail.`price`*stockin_detail.`count`) AS price    ,                   
-                  product.`name` AS productname  ,     stockin_detail.`product_id` AS productid ,SUM( stockin_detail.`count`) AS quantity
- 
-                        FROM stockin_detail
-                        LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
-                        LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
-                        WHERE DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY stockin_detail.`product_id`,product.`name` 
-                        ) AS tbl_nhapthang  
-        LEFT JOIN                
 
- ( SELECT 
-                       
-SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,                   
-                  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid ,SUM( delivery_detail.`count`) AS quantity
- 
-                        FROM delivery_detail
-                        LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
-                        LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
-                        WHERE DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
-                        GROUP BY delivery_detail.`product_id`,product.`name`
-                        ) AS tbl_xuatthang
-         ON  tbl_nhapthang.productid =  tbl_xuatthang.productid";
 
     $myQuery="
- SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat , 
+ SELECT  tbl_nhapthang.price AS price_nhap,tbl_xuatthang.price AS price_xuat ,tbl_xuatthang.quantity as soluong_xuat, 
        tbl_xuatthang.price- tbl_nhapthang.price  AS price_loi,tbl_nhapthang.productname ,tbl_nhapthang.productid ,sub_tien.price_loi_truocki
  FROM (
          SELECT 
@@ -234,6 +219,32 @@ SUM( delivery_detail.`price`*delivery_detail.`count`)  AS price    ,
 	    ) AS sub_tien
 	    
 	     ON  sub_tien.productid =  tbl_xuatthang.productid";
+
+    $myQuery = " SELECT 
+			       
+			SUM( delivery_detail.`count`) AS sl_xuat,price_tb AS giatb_nhap,SUM(delivery_detail.`count`)*price_tb AS tong_gia_goc ,
+			SUM( delivery_detail.`price`*delivery_detail.`count`)/sum(delivery_detail.`count`)  AS giatb_xuat ,
+			SUM( delivery_detail.`price`*delivery_detail.`count`)  AS tongtienban    ,                   
+			  product.`name` AS productname  ,     delivery_detail.`product_id` AS productid 
+	 
+		FROM delivery_detail
+				LEFT JOIN product ON product.`id`=delivery_detail.`product_id`
+				LEFT JOIN delivery ON delivery.`id`=delivery_detail.`delivery_id`
+				
+				 LEFT JOIN  (  
+						SELECT 
+								stockin_detail.product_id AS productid ,     
+							SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)  AS price_tb    
+					FROM stockin_detail
+						LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
+						LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
+					 WHERE  stockin.username='trong' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >='2018-05-01' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <='2018-05-31'
+						GROUP BY stockin_detail.`product_id`,product.`name`
+				   ) AS GTB ON  GTB.productid  = product.id 
+                        
+		WHERE delivery.username='trong' AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >='2018-05-01' AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <='2018-05-31'
+		GROUP BY delivery_detail.`product_id`,product.`name`";
+
     $dataProvider = new SqlDataProvider([
         'sql' => $myQuery,
         'params' =>$arPara,

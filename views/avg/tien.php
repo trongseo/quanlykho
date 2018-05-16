@@ -74,7 +74,7 @@ $this->registerJs($js, $this::POS_END);
 
 
         <div class="product-index">
-
+<!--            sl_xuat,giatb_nhap,tong_gia_goc ,giatb_xuat ,tongtienban    ,  productname , productid-->
             <?php
             if(isset($dataProvider))
             echo GridView::widget([
@@ -89,34 +89,36 @@ $this->registerJs($js, $this::POS_END);
                         'label' => 'Tên sản phẩm',
                         'value' => 'productname',
                     ],
+
                     [
-                        'label' => 'Tổng số tiền xuất',
+                        'label' => 'Giá nhập kho',
                         'value' => function ($arrData, $key, $index, $widget) {
-                                return number_format(  $arrData['price_xuat']);
+                                return number_format(  $arrData['giatb_nhap']);
+                        }
+                    ],
+                    'sl_xuat',
+                    [
+                        'label' => 'Tổng tiền vốn',
+                        'value' => function ($arrData, $key, $index, $widget) {
+                            return number_format(  $arrData['tong_gia_goc']);
                         }
                     ],
                     [
-                        'label' => 'Tổng số tiền nhập',
+                        'label' => 'Giá xuất tb',
                         'value' => function ($arrData, $key, $index, $widget) {
-                            return number_format(  $arrData['price_nhap']);
+                            return number_format(  $arrData['giatb_xuat']);
                         }
                     ],
                     [
-                        'label' => 'Lời trước kì',
+                        'label' => 'Tổng tiền bán',
                         'value' => function ($arrData, $key, $index, $widget) {
-                            return number_format(  $arrData['price_loi_truocki']);
+                            return number_format(  $arrData['tongtienban']);
                         }
                     ],
                     [
-                        'label' => 'Lời trong kì',
+                        'label' => 'Lời  cuối kì',
                         'value' => function ($arrData, $key, $index, $widget) {
-                            return number_format(  $arrData['price_loi']);
-                        }
-                    ],
-                    [
-                        'label' => 'Lời trong cuối kì',
-                        'value' => function ($arrData, $key, $index, $widget) {
-                            return number_format(  $arrData['price_loi']+ $arrData['price_loi_truocki']);
+                            return number_format(   $arrData['tongtienban']-$arrData['tong_gia_goc']);
                         }
                     ],
                 ],
