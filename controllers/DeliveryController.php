@@ -100,7 +100,7 @@ class DeliveryController extends AppController
 
             // set the time
             if ($model->time) {
-                date_default_timezone_set("Asia/ShangHai");
+                date_default_timezone_set("Asia/Ho_Chi_Minh");
                 $model->time .= ("  ". date("H:i:s"));
             }
             //validate all models

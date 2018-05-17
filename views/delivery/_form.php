@@ -19,10 +19,12 @@ $js = <<<JS
 function updateMoney(){
     var money = new Number(0);
     $(".detail-total").each(function(){
-    var detail = new Number($(this).html());
+      var removeCommsas =   $(this).html().replace(/,/g, "");
+    var detail = new Number(removeCommsas);
     money += detail;
     });
-    $("#delivery-money").val(money.toFixed(2));
+    $("#delivery-money").val(money.toFixed(0));
+    formatNumberAll();
 }
 
 var soluongtons;
@@ -108,7 +110,7 @@ $("body").on("change",".detail-product-id", function handleProduct(){
           $(this).parent().parent().parent().parent().find('.detail-price').val(price);
         if(count !="") {
             console.log("total:"+ price*count);
-             total_item.html((price * count).toFixed(2));
+             total_item.html((price * count).toFixed(0));
         }
     }else{
         price_item.val("0.00");
@@ -125,7 +127,7 @@ $("body").on("change",".detail-count",function() {
     var product_id = product_item.val();
     if(!isNaN(count) && product_id != ""){
         price = price_item.val();
-        total_item.html((price * count).toFixed(0));
+        total_item.html(addCommas((price * count).toFixed(0)));
         updateMoney();
     }
 });
@@ -142,7 +144,7 @@ $("body").on("change", ".detail-price", function() {
 JS;
 
 $this->registerJs($js, $this::POS_END);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/common.js', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/common.js?d=8', ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depends' => [\yii\web\JqueryAsset::className()], 'position' => View::POS_END]); ?>
 
 
@@ -188,7 +190,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                 ?>
             </div>
 
-            <?= $form->field($model, 'money')->textInput(['readonly'=>'readonly'])->label("Tổng tiền:") ?>
+            <?= $form->field($model, 'money')->textInput(['readonly'=>'readonly','class'=>'number_format form-control'])->label("Tổng tiền:") ?>
 
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
@@ -254,7 +256,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
                                     <div class="col-sm-6">
                                         <?= $form->field($modelDetail, "[{$i}]price")->textInput([
                                             'maxlength' => true,
-                                            'class' => 'form-control detail-price',
+                                            'class' => 'number_format form-control detail-price',
                                         ]) ?>
 
                                     </div>

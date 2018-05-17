@@ -23,7 +23,7 @@ function updateMoney(){
     var detail = new Number($(this).html());
     money += detail;
     });
-    $("#stockin-money").val(money.toFixed(2));
+    $("#stockin-money").val(money.toFixed(0));
 }
 
 var prices;
@@ -40,7 +40,7 @@ function getPrice(id) {
             if(v.unit == "B") {
                 toReturn = v.price;
             } else {
-                toReturn = (v.price * v.specification).toFixed(2);
+                toReturn = (v.price * v.specification).toFixed(0);
             }
             return false;
         }
@@ -71,7 +71,7 @@ $("body").on("change",".detail-product-id", function handleProduct(){
         price = getPrice(product_id);
         price_item.html(price);
         if(count !="") {
-             total_item.html((price * count).toFixed(2));
+             total_item.html((price * count).toFixed(0));
         }
     }else{
         price_item.html("0");
@@ -89,7 +89,7 @@ $("body").on("keyup",".detail-count",function() {
     if(!isNaN(count) && product_id != ""){
        // var price = getPrice(product_id);
         var  price= $(this).parent().parent().next().next().children().find('.number_format').val();
-        total_item.html((price * count).toFixed(2));
+        total_item.html((price * count).toFixed(0));
         updateMoney();
     }
 });

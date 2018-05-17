@@ -131,7 +131,7 @@ SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)
             $commanRun->bindValue(':username',  Yii::$app->user->username);
            // DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >='2018-04-24' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <='2018-04-25'
             $giatrungbinh= $commanRun->queryAll();
-            echo("<br/><br/><br/><br/><br/><br/><br/><br/><br/>"."<br/>".$commanRun->rawSql);
+           // echo("<br/><br/><br/><br/><br/><br/><br/><br/><br/>"."<br/>".$commanRun->rawSql);
 
 //            foreach ($giatrungbinh as $myitem) {
 //                $productid = $myitem['productid'];

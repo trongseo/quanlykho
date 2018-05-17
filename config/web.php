@@ -84,7 +84,7 @@ $config = [
         ],
 
     ],
-    'language' => 'vn-VN',
+    'language' => 'vi_VN',
 ];
 
 if (YII_ENV_DEV) {

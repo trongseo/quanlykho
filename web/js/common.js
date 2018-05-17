@@ -10,12 +10,23 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
+function removecommas(str) {
+  return  str.replace(/,/g, "");
+}
 
+// var text = "#here_is_the_one#";
+// var find = ["#","_"];
+// var replace = ['',' '];
+// text = replaceStr(text, find, replace);
+// console.log(text);
 
 //form collection
 function formatNumberAll(){
+
+    $(".pformat").remove();
     $(".number_format").each(function( index ) {
         var afterCommars = addCommas( $(this).val());
+
         $( "<p class='pformat'  style='float: right'  id='pformat_"+ $(this).attr('id') +"' ><b>"+afterCommars+"</b></p>" ).insertAfter( "#"+ $(this).attr('id') );
     });
 }
