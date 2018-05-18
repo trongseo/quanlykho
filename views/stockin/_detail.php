@@ -23,12 +23,13 @@ use kartik\grid\GridView;
         ],
         [
             'label' => Yii::t('app', 'Summary'),
-            'format' => ['decimal', 2],
+            'format' => ['decimal', 0],
             'class' => 'kartik\grid\FormulaColumn',
             'value' => function($model, $key, $index, $widget) {
-                return $model->product->unit == 'B' ?
-                    $model->count * $model->product->price:
-                    $model->count * $model->product->price * $model->product->specification;
+                return     $model->count * $model->product->price ;
+//                return $model->product->unit == 'B' ?
+//                    $model->count * $model->product->price:
+//                    $model->count * $model->product->price * $model->product->specification;
             }
 
         ]

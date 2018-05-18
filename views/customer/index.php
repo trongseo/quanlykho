@@ -54,35 +54,35 @@ $this->params['breadcrumbs'][] = $this->title;
             'width' => '40%',
             'attribute' => 'info',
         ],
-        [
-            'attribute' => 'time',
-            'format' => ['datetime','php:Y-m-d'],
-            'filterType' => GridView::FILTER_DATE_RANGE,
-            'filterWidgetOptions' => [
-                'presetDropdown' => true,
-                'pluginOptions' => [
-                    'locale' => [
-                        'separator' => ' to ',
-                        'format' => 'YYYY-MM-DD',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'attribute' => 'sum',
-            'width' => '10%',
-            'format' => ['decimal', 2],
-        ],
-        [
-            'attribute' => 'payed',
-            'width' => '10%',
-            'format' => ['decimal', 2],
-        ],
-        [
-            'attribute' => 'unpay',
-            'width' => '10%',
-            'format' => ['decimal', 2],
-        ],
+//        [
+//            'attribute' => 'time',
+//            'format' => ['datetime','php:Y-m-d'],
+//            'filterType' => GridView::FILTER_DATE_RANGE,
+//            'filterWidgetOptions' => [
+//                'presetDropdown' => true,
+//                'pluginOptions' => [
+//                    'locale' => [
+//                        'separator' => ' to ',
+//                        'format' => 'YYYY-MM-DD',
+//                    ],
+//                ],
+//            ],
+//        ],
+//        [
+//            'attribute' => 'sum',
+//            'width' => '10%',
+//            'format' => ['decimal', 2],
+//        ],
+//        [
+//            'attribute' => 'payed',
+//            'width' => '10%',
+//            'format' => ['decimal', 2],
+//        ],
+//        [
+//            'attribute' => 'unpay',
+//            'width' => '10%',
+//            'format' => ['decimal', 2],
+//        ],
     ],
 ]); ?>
 

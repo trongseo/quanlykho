@@ -37,14 +37,78 @@ class AvgController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','tien','soluongtons', 'view','giatb', 'create', 'update', 'delete', 'prices','monthavg'],
+                        'actions' => ['sanluong','index','tien','soluongtons', 'view','giatb', 'create', 'update', 'delete', 'prices','monthavg'],
                         'roles' => ['@'],
                     ],
                 ],
             ],
         ];
     }
+    public function getSqlDataProviderSL($arPara){
 
+
+
+        $myQuery = "
+                        
+		WHERE delivery.username=:username AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
+		GROUP BY delivery_detail.`product_id`,product.`name`";
+        
+$myQuery = "SELECT pr.id AS product_id , pr.`name`, IFNULL(sum_count, 0) sum_count FROM product  pr
+LEFT JOIN 
+   (SELECT SUM( dt.count ) AS sum_count,dt.`product_id` FROM delivery INNER JOIN delivery_detail dt ON delivery.`id` = dt.`delivery_id`
+       WHERE  DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d' ) <=:yearmondayto  GROUP BY dt.`product_id` ) AS dt ON
+        pr.`id` = dt.`product_id`
+WHERE  pr.username=:username
+ORDER BY pr.`name`
+";
+        $dataProvider = new SqlDataProvider([
+            'sql' => $myQuery,
+            'params' =>$arPara,
+            'totalCount' => 100,
+            //'sort' =>false, to remove the table header sorting
+            'sort' => [
+                'attributes' => [
+                    'tbl_xuatthang.productname' => [
+                        'asc' => ['tbl_xuatthang.productname' => SORT_ASC],
+                        'desc' => ['tbl_xuatthang.productname' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ]
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+        ]);
+
+        return $dataProvider;
+
+    }
+    public function actionSanluong()
+    {
+        $date = new DateTime('now');
+        $date->modify('last day of this month');
+        // echo $date->format('Y-m-d');
+        $yearmondayfrom = date('Y-m-01');
+        $yearmondayto = $date->format('Y-m-d');
+        $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+        Yii::$app->user->username;
+        //$myQuery =  $this->getQueryTien($para);
+
+
+        if (isset($_REQUEST['from_date'])) {
+            $yearmondayfrom = $_REQUEST['from_date'] ;
+            $yearmondayto =  $_REQUEST['to_date'] ;
+            $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+        }
+        $para[':username']=Yii::$app->user->username;
+        $dataProvider = $this->getSqlDataProviderSL($para);
+        return $this->render('sanluong', [
+            'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
+        ]);
+
+
+    }
     public function actionIndex()
     {
         $date = new DateTime('now');
@@ -133,13 +197,6 @@ SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)
             $giatrungbinh= $commanRun->queryAll();
            // echo("<br/><br/><br/><br/><br/><br/><br/><br/><br/>"."<br/>".$commanRun->rawSql);
 
-//            foreach ($giatrungbinh as $myitem) {
-//                $productid = $myitem['productid'];
-//                $price = $myitem['price'];
-//                $quantity = $myitem['quantity'];
-//                $parameters = array("price" => $price, "quantity" => $quantity);
-//                Yii::$app->db->createCommand()->update('product', $parameters, "id=" . $productid)->execute();
-//            }
             return $this->render('index', [
                 'giatrungbinh' => $giatrungbinh,'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto
             ]);
@@ -238,11 +295,11 @@ SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)
 					FROM stockin_detail
 						LEFT JOIN product ON product.`id`=stockin_detail.`product_id`
 						LEFT JOIN stockin ON stockin.`id`=stockin_detail.`stockin_id`
-					 WHERE  stockin.username='trong' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >='2018-05-01' AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <='2018-05-31'
+					 WHERE  stockin.username=:username AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(stockin.`time`,'%Y-%m-%d') <=:yearmondayto
 						GROUP BY stockin_detail.`product_id`,product.`name`
 				   ) AS GTB ON  GTB.productid  = product.id 
                         
-		WHERE delivery.username='trong' AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >='2018-05-01' AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <='2018-05-31'
+		WHERE delivery.username=:username AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
 		GROUP BY delivery_detail.`product_id`,product.`name`";
 
     $dataProvider = new SqlDataProvider([
@@ -269,16 +326,7 @@ SUM( stockin_detail.`price`*stockin_detail.`count`)/SUM( stockin_detail.`count`)
 
 }
     public function actionQuantitypro(){
-        if (Yii::$app->request->isAjax) {
-            $data = Yii::$app->request->post();
-           // $productid= explode(":", $data['productid']);
-            var_dump($data) ;
-
-              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return [
-                'productid' => $productid,
-            ];
-        }
+       
     }
     public function actionTien()
     {

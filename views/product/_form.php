@@ -44,7 +44,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depe
     echo $form->field($model, 'unit_id')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(\app\models\UnitPro::find()->all(), 'id', 'unit_name'),
         'language' => 'vn',
-        'options' => ['placeholder' => 'Tìm chọn sản phẩm.'],
+        'options' => ['placeholder' => 'Tìm chọn '],
         'pluginOptions' => [
             'allowClear' => true
         ],

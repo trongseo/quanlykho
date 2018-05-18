@@ -94,8 +94,8 @@ class CollectionSearch extends Collection
         $query->andFilterWhere(['like', 'account.name', $this->account_id]);
         $query->andFilterWhere(['like', 'money', $this->money]);
 
-//        var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-//        exit();
+       var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+       // exit();
 
         return $dataProvider;
     }

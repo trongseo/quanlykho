@@ -1,6 +1,7 @@
 <?php
 
 use kartik\file\FileInput;
+use kartik\select2\Select2;
 use uranum\excel\ExcelExchanger;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
@@ -13,20 +14,42 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Collection */
 /* @var $form yii\widgets\ActiveForm */
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js?ver=3',['depends' => [JqueryAsset::className()]]);
+
+
+$js = <<<JS
+$( document ).ready(function() {
+
+    $(".number_format").keyup(function(){
+
+        formatNumber($(this));
+    });
+
+    formatNumberAll();
+
+});
+JS;
+
+$this->registerJs($js, $this::POS_END);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/common.js?ver=3'.rand(),['depends' => [JqueryAsset::className()]]);
+
 ?>
 
 <div class="collection-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'account_id')->dropDownList(
-        ArrayHelper::map(Account::find()->all(), 'id', 'name'),
-        [
-            'prompt' => Yii::t('app','Select Account'),
-        ]
-    ) ?>
 
+    <?php
+    echo $form->field($model, 'account_id')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(\app\models\Account::find()->all(), 'id', 'name'),
+        'language' => 'vn',
+        'options' => ['placeholder' => 'Tìm chọn '],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+
+    ?>
     <div class="form-group field-collection-time">
         <label class="control-label" for="collection-time"><?= Yii::t('app', 'Time') ?> </label>
         <?= DatePicker::widget([
@@ -63,12 +86,18 @@ echo  $form->field($model, 'image1')->widget(FileInput::classname(), [
 
 ?>
 
-    <?= $form->field($model, 'customer_id')->dropDownList(
-        ArrayHelper::map(Customer::findAllforUser(), 'id', 'name'),
-        [
-            'prompt' => Yii::t('app','Select Customer'),
-        ]
-    ) ?>
+
+    <?php
+    echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(\app\models\Customer::find()->all(), 'id', 'name'),
+        'language' => 'vn',
+        'options' => ['placeholder' => 'Tìm chọn '],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+
+    ?>
     <?= $form->field($model, 'note')->textarea(['maxlength' => true])->label('Ghi chú') ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

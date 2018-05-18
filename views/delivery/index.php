@@ -88,14 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 //                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'money',
-                'format' => ['decimal', 2],
+                'format' => ['decimal', 0],
                 'pageSummary' => true,
             ],
-            [
-                'attribute' => 'profit',
-                'format' => ['decimal', 2],
-                'pageSummary' => true,
-            ],
+//            [
+//                'attribute' => 'profit',
+//                'format' => ['decimal', 0],
+//                'pageSummary' => true,
+//            ],
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'updateOptions' => ['hidden'=> true],

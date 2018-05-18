@@ -36,7 +36,7 @@ $this->title = 'My Yii Application';
 				<p><a class="btn btn-default" href="/index.php?r=avg%2Findex">Báo cáo số lượng tồn</a></p>
 				<p><a class="btn btn-default" href="/index.php?r=avg%2Ftien">Báo cáo tiền xuất nhập</a></p>
 				<p><a class="btn btn-default" href="/index.php?r=avg%2Fgiatb">Báo cáo giá trung bình</a></p>
-				
+                <p><a class="btn btn-default" href="/index.php?r=avg%2Fsanluong">Báo cáo giá sản lượng bán</a></p>
             </div>
 			
         </div>

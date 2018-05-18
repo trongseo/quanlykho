@@ -28,10 +28,11 @@ use kartik\grid\GridView;
         ],
         [
             'attribute' => 'price',
+            'format' => ['decimal', 0],
         ],
         [
             'label' => Yii::t('app','Summary'),
-            'format' => ['decimal', 2],
+            'format' => ['decimal', 0],
             'class' => 'kartik\grid\FormulaColumn',
             'value' => function($model, $key, $index, $widget) {
                 $p = compact('model', 'key', 'index');
@@ -39,15 +40,15 @@ use kartik\grid\GridView;
             },
 
         ],
-        [
-            'label' => Yii::t('app', 'Profit'),
-            'format' => ['decimal', 2],
-            'value' => function($model, $key, $index, $widget) {
-                return $model->count * ($model->price -
-                    ($model->product->unit =='B' ?
-                        $model->product->cost:
-                        $model->product->cost * $model->product->specification));
-            },
-        ],
+//        [
+//            'label' => Yii::t('app', 'Profit'),
+//            'format' => ['decimal', 0],
+//            'value' => function($model, $key, $index, $widget) {
+//                return $model->count * ($model->price -
+//                    ($model->product->unit =='B' ?
+//                        $model->product->cost:
+//                        $model->product->cost * $model->product->specification));
+//            },
+//        ],
     ],
 ]) ?>

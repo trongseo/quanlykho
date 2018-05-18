@@ -60,9 +60,36 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
 
-            ['label' => Yii::t('app', 'Delivery'), 'url' => ['/delivery/index']],
-            ['label' => Yii::t('app', 'Stockin'), 'url' => ['/stockin/index']],
-            ['label' => Yii::t('app', 'Collection'), 'url' => ['/collection/index']],
+
+            ['label' => 'Xuất Kho',
+                'url' => ['#'],
+                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'items' => [
+                    ['label' => Yii::t('app', 'Xuất kho'), 'url' => ['/delivery/create']],
+                    ['label' => Yii::t('app', 'Quản lý Xuất kho'), 'url' => ['/delivery/index']],
+
+                ],
+            ],
+
+            ['label' => 'Nhập Kho',
+                'url' => ['#'],
+                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'items' => [
+                    ['label' => Yii::t('app', 'Nhập kho'), 'url' => ['/stockin/create']],
+                    ['label' => Yii::t('app', 'Quản lý Nhập kho'), 'url' => ['/stockin/index']],
+
+                ],
+            ],
+
+            ['label' => Yii::t('app', 'Collection'),
+                'url' => ['#'],
+                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'items' => [
+                    ['label' => Yii::t('app', 'Tạo thu chi '), 'url' => ['/collection/create']],
+                    ['label' => Yii::t('app', 'Quản thu chi'), 'url' => ['/collection/index']],
+
+                ],
+            ],
             ['label' => 'Báo cáo',
                 'url' => ['#'],
                 'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
@@ -70,13 +97,15 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Số lượng'), 'url' => ['/avg/index']],
                     ['label' => Yii::t('app', 'Tiền'), 'url' => ['/avg/tien']],
                     ['label' => Yii::t('app', 'Giá trung bình'), 'url' => ['/avg/giatb']],
+                    ['label' => Yii::t('app', 'Sản lượng bán'), 'url' => ['/avg/sanluong']],
+
 //                    ['label' => 'Something else here', 'url' => '#'],
                 ],
             ],
 //        ['label' => Yii::t('app', 'Bill'), 'url' => ['/bill/index']],
 
 
-            ['label' => Yii::t('app', 'Product'), 'url' => ['/product/index']],
+
             ['label' => 'Sản phẩm',
                 'url' => ['#'],
                 'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',

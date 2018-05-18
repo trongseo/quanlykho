@@ -32,8 +32,10 @@ function formatNumberAll(){
 }
 function formatNumber(objs){
         var afterCommars = addCommas( $(objs).val());
+        debugger;
+
     $("#pformat_"+ $(objs).attr('id')).remove();
-        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter(  "#"+ $(this).attr('id') );
+        $( "<p class='pformat' style='float: right' id='pformat_"+ $(objs).attr('id') +"'><b>"+afterCommars+"</b></p>" ).insertAfter(  "#"+ $(objs).attr('id') );
 
 }
 $( document ).ready(function() {
