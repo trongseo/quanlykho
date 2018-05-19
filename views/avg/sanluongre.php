@@ -74,7 +74,7 @@ $this->registerJs($js, $this::POS_END);
 
 
         <div class="product-index">
-            <!--            SELECT pr.id AS product_id , pr.`name`, IFNULL(sum_count, 0) sum_count FROM product  pr-->
+<!--            SELECT pr.id AS product_id , pr.`name`, IFNULL(sum_count, 0) sum_count FROM product  pr-->
 
 
             <?= GridView::widget([
@@ -99,6 +99,7 @@ $this->registerJs($js, $this::POS_END);
                         'attribute' => 'Tên sản phẩm',
                         'value' => 'name',
                     ],
+
                     [
                         'label' => Yii::t('app', 'Số lượng'),
                         //'class' => 'kartik\grid\DataColumn',

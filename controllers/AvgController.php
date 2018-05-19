@@ -9,8 +9,12 @@
 namespace app\controllers;
 
 use app\models\Bill;
+use app\models\Delivery;
+use app\models\Product;
+use app\models\ProductReport;
 use DateTime;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -37,7 +41,7 @@ class AvgController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['sanluong','index','tien','soluongtons', 'view','giatb', 'create', 'update', 'delete', 'prices','monthavg'],
+                        'actions' => ['sanluong','sanluongre','index','tien','soluongtons', 'view','giatb', 'create', 'update', 'delete', 'prices','monthavg'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -49,9 +53,7 @@ class AvgController extends Controller
 
 
         $myQuery = "
-                        
-		WHERE delivery.username=:username AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d') <=:yearmondayto
-		GROUP BY delivery_detail.`product_id`,product.`name`";
+                        ";
         
 $myQuery = "SELECT pr.id AS product_id , pr.`name`, IFNULL(sum_count, 0) sum_count FROM product  pr
 LEFT JOIN 
@@ -59,21 +61,49 @@ LEFT JOIN
        WHERE  DATE_FORMAT(delivery.`time`,'%Y-%m-%d') >=:yearmondayfrom AND DATE_FORMAT(delivery.`time`,'%Y-%m-%d' ) <=:yearmondayto  GROUP BY dt.`product_id` ) AS dt ON
         pr.`id` = dt.`product_id`
 WHERE  pr.username=:username
-ORDER BY pr.`name`
+
 ";
+       // $subQuery = BaseFollower::find()->select('id');
+
+    //   $query->addParams([':username'=>$arPara[':username']]);
+
+        $subQuery = Delivery::find()->select('SUM( dt.count ) AS sum_count,dt.`product_id`');
+        $subQuery->joinWith("deliveryDetails dt");
+        $subQuery->where("delivery.username = 'trong'");
+        $subQuery->andFilterWhere(['>=', 'delivery.time', '2018-05-01']);
+        $subQuery->andFilterWhere(['<=', 'delivery.time', '2018-05-31']);
+        $subQuery->groupBy('dt.`product_id`');
+
+        $query = Product::find()->select('product.id as product_id, IFNULL(dt.sum_count,0 ) as sum_count ');
+        $query->leftJoin(['dt' => $subQuery], 'product.id = dt.product_id');
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $sortArr =['pr.name'=>SORT_ASC];
+        if (isset($_REQUEST['sort'])) {
+            $sort = $_REQUEST['sort'] ;
+            if(strpos($sort,'-') !== false){
+                $sortArr =[$sort=>SORT_DESC];
+            }else{
+                $sortArr =[$sort=>SORT_ASC];
+            }
+
+
+        }
+
+
         $dataProvider = new SqlDataProvider([
             'sql' => $myQuery,
             'params' =>$arPara,
             'totalCount' => 100,
             //'sort' =>false, to remove the table header sorting
             'sort' => [
+                'defaultOrder' => $sortArr,
                 'attributes' => [
-                    'tbl_xuatthang.productname' => [
-                        'asc' => ['tbl_xuatthang.productname' => SORT_ASC],
-                        'desc' => ['tbl_xuatthang.productname' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ]
+                    'pr.name',
+                    'sum_count'
+
                 ],
             ],
             'pagination' => [
@@ -84,7 +114,7 @@ ORDER BY pr.`name`
         return $dataProvider;
 
     }
-    public function actionSanluong()
+    public function actionSanluongee()
     {
         $date = new DateTime('now');
         $date->modify('last day of this month');
@@ -104,6 +134,45 @@ ORDER BY pr.`name`
         $para[':username']=Yii::$app->user->username;
         $dataProvider = $this->getSqlDataProviderSL($para);
         return $this->render('sanluong', [
+            'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
+        ]);
+
+
+    }
+    public function actionSanluong()
+    {
+        $date = new DateTime('now');
+        $date->modify('last day of this month');
+        // echo $date->format('Y-m-d');
+        $yearmondayfrom = date('Y-m-01');
+        $yearmondayto = $date->format('Y-m-d');
+        $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+        Yii::$app->user->username;
+        //$myQuery =  $this->getQueryTien($para);
+
+
+        if (isset($_REQUEST['from_date'])) {
+            $yearmondayfrom = $_REQUEST['from_date'] ;
+            $yearmondayto =  $_REQUEST['to_date'] ;
+            $para=[':yearmondayfrom' => $yearmondayfrom,':yearmondayto' => $yearmondayto];
+        }
+        $para[':username']= Yii::$app->user->username;
+        $subQuery = Delivery::find()->select('SUM( dt.count ) AS sumCount,dt.`product_id`');
+        $subQuery->joinWith("deliveryDetails dt");
+       // $subQuery->where("delivery.username = 'trong'");
+        $subQuery->andFilterWhere(['>=', 'delivery.time', $yearmondayfrom]);
+        $subQuery->andFilterWhere(['<=', 'delivery.time', $yearmondayto]);
+        $subQuery->groupBy('dt.`product_id`');
+
+        $query = ProductReport::find()->select('product.id,name,  sumCount');
+        $query->leftJoin(['dt' => $subQuery], 'product.id = dt.product_id');
+        $query->where("product.username = :username",[':username'=>Yii::$app->user->username]);
+        echo  $query->createCommand()->getRawSql();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $searchModel = new ProductReport();
+        return $this->render('sanluong', ['searchModel'=>$searchModel,
             'giatrungbinh' => [],'yearmondayfrom'=>$yearmondayfrom,'yearmondayto'=>$yearmondayto,'dataProvider'=>$dataProvider
         ]);
 
