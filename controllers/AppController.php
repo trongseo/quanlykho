@@ -19,7 +19,10 @@ class AppController extends Controller
     {
         parent::init();
     }
-
+    public function  getParaConfig($keypara){
+        //if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+         return Yii::$app->params[$keypara];
+    }
     function date_default_timezone_set(){
         date_default_timezone_set("Asia/Ho_Chi_Minh");
     }

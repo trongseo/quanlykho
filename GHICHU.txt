@@ -1,10 +1,13 @@
-﻿
-Lam format  so tien
+﻿In phieu nhap nhat
+Tao phieu thu chi
+
 xuat excel don hang mua ban
-Trong thu chi cho tìm kiếm khách hàng
+
 in thu chhi
 in phieu thu chi
-format number kieu kho
+
 list danh sách khách hàng
 vẽ báo cáo bằng sơ đồ
 ghi log khi xoa du lieu -- tu dong backup du lieu
+
+[ tham khao xuat file pdf trong product)

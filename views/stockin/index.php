@@ -16,7 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Stockin'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
+    </p>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -25,12 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ],
     'rowOptions' => ['class' => 'danger'],
     'bordered' => false,
-    'toolbar' => [
-        ['content' => Html::a(Yii::t('app', 'Create Stockin'),
-        ['create'],
-        ['class' => 'btn btn-success'])
-    ],
-],
+
 'panel' => [
     'type' => GridView::TYPE_PRIMARY,
     'heading' => Yii::t('app', 'Stockins'),

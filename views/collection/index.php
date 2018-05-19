@@ -18,7 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <p>
+        <?=  Html::a(Yii::t('app', 'Create Collection'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -26,12 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'tableOptions' => [
             'style'=>'text-align:center',
         ],
-        'toolbar' => [
-            ['content' => Html::a(Yii::t('app', 'Create Collection'),
-                ['create'],
-                ['class' => 'btn btn-success'])
-            ],
-        ],
+
         'panel' => [
             'type' => GridView::TYPE_PRIMARY,
             'heading' => Yii::t('app', 'Collection'),

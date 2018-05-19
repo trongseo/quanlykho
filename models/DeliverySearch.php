@@ -91,7 +91,7 @@ class DeliverySearch extends Delivery
         $query->joinwith('customer');
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'delivery.id' => $this->id,
             'detailSum.detail_count' => $this->detailCount,
         ]);
 

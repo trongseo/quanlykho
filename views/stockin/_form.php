@@ -140,7 +140,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/dynamicform.js',['depends
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
+                    ])->label("Khách hàng");
 
 
                     echo  $form->field($model, 'image1')->widget(FileInput::classname(), [

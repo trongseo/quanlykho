@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-
+    <p>
+        <?= Html::a('Tạo khách hàng mới', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -23,13 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'style'=>'text-align:center',
     ],
     'bordered' => false,
-    'toolbar' => [
-        [
-            'content' => Html::a(Yii::t('app', 'Create Customer'),
-            ['create'],
-            ['class' => 'btn btn-success'])
-        ],
-    ],
+
     'panel' => [
         'type' => GridView::TYPE_PRIMARY,
         'heading' => Yii::t('app', 'Customer'),

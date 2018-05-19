@@ -18,6 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="product-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Product'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
+    </p>
     <?php
 
 
@@ -48,33 +53,33 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     ];
-    $gridColumnsExport =[
-        [  'label' => 'name',
-            'value' => function ($model, $key, $index, $widget) {
-                return ( $model->name);
-            }
-        ],
-
-        [  'label' => 'price',
-            'value' => function ($model, $key, $index, $widget) {
-                return ( $model->price);
-            }
-
-        ],
-        [  'label' => 'unit_id',
-            'value' => function ($model, $key, $index, $widget) {
-                return ( $model->unit_id);
-            }
-
-        ],
-
-    ];
-
-    // Renders a export dropdown menu
-    echo ExportMenu::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => $gridColumnsExport
-    ]);
+//    $gridColumnsExport =[
+//        [  'label' => 'name',
+//            'value' => function ($model, $key, $index, $widget) {
+//                return ( $model->name);
+//            }
+//        ],
+//
+//        [  'label' => 'price',
+//            'value' => function ($model, $key, $index, $widget) {
+//                return ( $model->price);
+//            }
+//
+//        ],
+//        [  'label' => 'unit_id',
+//            'value' => function ($model, $key, $index, $widget) {
+//                return ( $model->unit_id);
+//            }
+//
+//        ],
+//
+//    ];
+//
+//    // Renders a export dropdown menu
+//    echo ExportMenu::widget([
+//        'dataProvider' => $dataProvider,
+//        'columns' => $gridColumnsExport
+//    ]);
     ?>
 
 
@@ -85,13 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'style'=>'text-align:left',
     ],
     'bordered' => false,
-    'toolbar' => [
-        [
-            'content' => Html::a(Yii::t('app', 'Create Product'),
-            ['create'],
-            ['class' => 'btn btn-success'])
-        ],
-    ],
+
 'panel' => [
     'type' => GridView::TYPE_PRIMARY,
     'heading' => Yii::t('app', 'Product'),

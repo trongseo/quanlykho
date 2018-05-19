@@ -140,11 +140,10 @@ $("body").on("change", ".detail-price", function() {
 });
 
  
- 
 JS;
 
 $this->registerJs($js, $this::POS_END);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/common.js?d=8', ['depends' => [JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/common.js?d=8'.rand(), ['depends' => [JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/dynamicform.js', ['depends' => [\yii\web\JqueryAsset::className()], 'position' => View::POS_END]); ?>
 
 

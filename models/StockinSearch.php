@@ -94,7 +94,7 @@ class StockinSearch extends Stockin
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'stockin.id' => $this->id,
             'detailSum.detail_count' => $this->detailCount,
         ]);
         $query->andFilterWhere(['like', 'money', $this->money]);
